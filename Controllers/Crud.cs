@@ -47,8 +47,12 @@ namespace WebAPI_SetaDigital.Controllers
             return Banco.Instance.listMarcasUFs(pais, qtd);
         }
         public List<ContagemMarca> listMarcasCidades (string pais, string estado, int qtd){
-            Console.WriteLine("Lista de marcas mais vendidas por estado");
+            Console.WriteLine("Lista de marcas mais vendidas por cidade");
             return Banco.Instance.listMarcasCidades(pais, estado, qtd);
+        }
+        public List<ContagemMarca> listMarcasBairros (string pais, string estado, string cidade, int qtd){
+            Console.WriteLine("Lista de marcas mais vendidas por bairro");
+            return Banco.Instance.listMarcasBairros(pais, estado, cidade, qtd);
         }
         //Fim dos novos métodos///////////////////////////////////////////
 

@@ -376,6 +376,80 @@ namespace WebAPI_SetaDigital.Controllers
             }
             return listCidades;
         }
+        public List<ContagemMarca> listMarcasBairros (string pais, string estado, string cidade, int qtd) { //localhost:5000/api/geoseta/BR
+            List<ContagemMarca> listBairros = new List<ContagemMarca> ();//Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
+            ContagemMarca bairro = new ContagemMarca ();
+            int contador=0;
+            try {
+                NpgsqlConnection conn = new NpgsqlConnection (connstring);
+                conn.Open ();
+
+                // Colocar o Pais
+                // Decidir se vai fazer o gasto médio por bairro ou se vai fazer o gasto total, se for o médio é só pegar o total que vem e dividir pela quantidade de pessoas          
+                string sql = String.Format ("select bai.descricao, mar.descricao, sum(m.quantidade) from pessoas as p  join cep on p.cep = cep.codigo join cepbairros as bai on cep.bairro = bai.codigo join cepcidades as cid on cep.cidade = cid.codigo join vendas as v on v.cliente = p.codigo join movimento as m on SUBSTR(m.auxiliar, 3, 8)::Char(8) = v.codigo and m.operacao = 'VE' join produtos as pro on pro.codigo = substr(m.produto, 1, 6)::Char(6) join marcas as mar on mar.codigo = pro.marca where p.codcidade = cep.cidade and p.cep != '' and cid.descricao = '{0}' and cid.uf = '{1}' group by bai.descricao, mar.descricao order by bai.descricao, sum desc", cidade, estado);
+                NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
+                NpgsqlDataReader dRead = cmd.ExecuteReader ();
+                
+                string auxiliar="";
+                string anterior="";
+                List<Marca> listaMarcas = new List<Marca>();
+                Marca marca;
+                int limit=0;
+                while (dRead.Read ()) {
+                    auxiliar=dRead[0].ToString().Trim();
+                    if(contador==0){
+                        anterior=auxiliar;
+                        marca = new Marca(){
+                            Nome = dRead[1].ToString().Trim(),
+                            QtdVendasMarca = Convert.ToInt16(dRead[2].ToString().Trim())
+                        };
+                        listaMarcas.Add(marca);
+                        limit++;
+                    }
+                    
+                    if(contador!=0 && auxiliar == anterior && limit < qtd){
+                        marca = new Marca {
+                            Nome = dRead[1].ToString().Trim(),
+                            QtdVendasMarca = Convert.ToInt16(dRead[2].ToString().Trim())
+                        };
+                        listaMarcas.Add(marca);
+                        limit++;
+                    }
+                    else if(contador!=0 && auxiliar != anterior){
+                        
+                        bairro = new ContagemMarca {
+                            nome = "SETA."+pais+"."+estado+"."+cidade+"."+anterior,
+                            lstMarca = listaMarcas
+                        };
+                        Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
+                        Console.WriteLine("Nome: "+bairro.nome);
+                        listBairros.Add (bairro);
+                        limit=0;
+                        anterior = auxiliar;
+                        listaMarcas = new List<Marca>();
+                        marca = new Marca(){
+                            Nome = dRead[1].ToString().Trim(),
+                            QtdVendasMarca = Convert.ToInt16(dRead[2].ToString().Trim())
+                        };
+                        listaMarcas.Add(marca);
+                        limit++;
+                    }
+                    contador++;
+
+                }
+                bairro = new ContagemMarca {
+                    nome = "SETA."+pais+"."+estado+"."+cidade+"."+auxiliar,
+                    lstMarca = listaMarcas
+                };
+                Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
+                Console.WriteLine("Nome: "+bairro.nome);
+                listBairros.Add (bairro);
+
+            } catch (Exception msg) {
+                Console.WriteLine (" Erro em Listar Todos" + msg.ToString ());
+            }
+            return listBairros;
+        }
         //Fim dos novos métodos/////////////////////////////////////////////////////////
 
         public Pessoa BuscarPessoa(string codigo)
