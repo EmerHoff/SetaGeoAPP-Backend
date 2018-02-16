@@ -59,7 +59,7 @@ namespace WebAPI_SetaDigital.Controllers
                 while (dRead.Read ()) {
                     contador++;
                     estado = new ContagemClientes {
-                        nome = dRead[0].ToString ().Trim (),
+                        nome = "SETA."+pais+"."+ dRead[0].ToString ().Trim (),
                         contagem = Convert.ToInt16(dRead[1].ToString ().Trim ())
                     };
                     Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
@@ -90,7 +90,7 @@ namespace WebAPI_SetaDigital.Controllers
                 while (dRead.Read ()) {
                     contador++;
                     cidade = new ContagemClientes {
-                        nome = dRead[0].ToString ().Trim (),
+                        nome = "SETA."+pais+"."+estado+"."+dRead[0].ToString ().Trim (),
                         contagem = Convert.ToInt16(dRead[1].ToString ().Trim ())
                     };
                     Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
@@ -113,7 +113,7 @@ namespace WebAPI_SetaDigital.Controllers
                 NpgsqlConnection conn = new NpgsqlConnection (connstring);
                 conn.Open ();
 
-                // Colocar o Pais
+                // Colocar o Pais            
                 string sql = String.Format ("select bai.descricao, count(p.codigo) from pessoas as p inner join cep on p.cep = cep.codigo inner join cepbairros as bai on bai.codigo = cep.bairro inner join cepcidades as cid on cep.cidade = cid.codigo where p.codcidade = cep.cidade and cid.descricao = '{0}' and cid.uf = '{1}' group by bai.descricao",cidade,estado);
                 NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
                 NpgsqlDataReader dRead = cmd.ExecuteReader ();
@@ -121,7 +121,7 @@ namespace WebAPI_SetaDigital.Controllers
                 while (dRead.Read ()) {
                     contador++;
                     bairro = new ContagemClientes {
-                        nome = dRead[0].ToString ().Trim (),
+                        nome = "SETA."+pais+"."+estado+"."+cidade+"."+dRead[0].ToString ().Trim (),
                         contagem = Convert.ToInt16(dRead[1].ToString ().Trim ())
                     };
                     Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
@@ -135,40 +135,90 @@ namespace WebAPI_SetaDigital.Controllers
             }
             return listBairros;
         }
+        public List<TotalGasto> gastoEstados (string pais) { //localhost:5000/api/geoseta/BR
+            List<TotalGasto> listEstados = new List<TotalGasto> ();//Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
+            TotalGasto estado = new TotalGasto ();
+            int contador=0;
+            try {
+                NpgsqlConnection conn = new NpgsqlConnection (connstring);
+                conn.Open ();
 
-        //Cria uma lista com as marcas mais compradas por bairro
-        public List<ContagemMarca> marcaMaisCompradaBairro(string pais, string estado, string cidade){
-            List<ContagemMarca> lstContagemMarca = new List<ContagemMarca>();
+                // Colocar o Pais e a query
+                // Decidir se vai fazer o gasto médio por bairro ou se vai fazer o gasto total, se for o médio é só pegar o total que vem e dividir pela quantidade de pessoas          
+                string sql = String.Format ("select p.UF, sum(v.total), count(v.codigo) from pessoas as p join vendas as v on v.cliente = p.codigo join movimento as m on SUBSTRING(m.auxiliar, 3, 8)::Char(8) = v.codigo and m.operacao = 'VE' where p.uf != '' group by p.uf order by p.uf ");
+                NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
+                NpgsqlDataReader dRead = cmd.ExecuteReader ();
+
+                while (dRead.Read ()) {
+                    contador++;
+                    estado = new TotalGasto {
+                        nome = "SETA."+pais+"."+dRead[0].ToString ().Trim (),
+                        valor = Convert.ToDouble(dRead[1].ToString ().Trim ())
+                    };
+                    Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
+                    Console.WriteLine("Nome: "+estado.nome+"\nValor: "+estado.valor);
+                    listEstados.Add (estado);
+
+                }
+
+            } catch (Exception msg) {
+                Console.WriteLine (" Erro em Listar Todos" + msg.ToString ());
+            }
+            return listEstados;
+        }
+        public List<TotalGasto> gastoCidades (string pais, string estado) { //localhost:5000/api/geoseta/BR
+            List<TotalGasto> listCidades = new List<TotalGasto> ();//Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
+            TotalGasto cidade = new TotalGasto ();
+            int contador=0;
             try {
                 NpgsqlConnection conn = new NpgsqlConnection (connstring);
                 conn.Open ();
 
                 // Colocar o Pais
-                //Retorna o bairro 
-                string sql = String.Format ("select bai.descricao, mar.descricao, sum(m.quantidade) from pessoas as p" + 
-                    "join cep on p.cep = cep.codigo " +
-                    "join cepbairros as bai on cep.bairro = bai.codigo" +
-                    "join cepcidades as cid on cep.cidade = cid.codigo " +
-                    "join vendas as v on v.cliente = p.codigo" +
-                    "join movimento as m on SUBSTR(m.auxiliar, 3, 8)::Char(8) = v.codigo and m.operacao = 'VE'" +
-                    "join produtos as pro on pro.codigo = substr(m.produto, 1, 6)::Char(6)" +
-                    "join marcas as mar on mar.codigo = pro.marca" +
-                    "where p.codcidade = cep.cidade" + 
-                    "and p.cep != ''" + 
-                    "and cid.descricao = '{0}' " + 
-                    "and cid.uf = '{1}'" +
-                    "group by  bai.descricao, mar.descricao", cidade, estado);
+                // Decidir se vai fazer o gasto médio por bairro ou se vai fazer o gasto total, se for o médio é só pegar o total que vem e dividir pela quantidade de pessoas          
+                string sql = String.Format ("select cid.descricao, sum(v.total), count(v.codigo) from pessoas as p inner join cepcidades as cid on p.codcidade = cid.codigo join vendas as v on v.cliente = p.codigo join movimento as m on SUBSTRING(m.auxiliar, 3, 8)::Char(8) = v.codigo and m.operacao = 'VE' where cid.uf = '{0}' group by cid.descricao order by cid.descricao",estado);
                 NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
                 NpgsqlDataReader dRead = cmd.ExecuteReader ();
 
                 while (dRead.Read ()) {
-                    if
-                    Marca = new ContagemMarca {
-                        nome = dRead[0].ToString ().Trim (),
-                        contagem = Convert.ToInt16(dRead[1].ToString ().Trim ())
+                    contador++;
+                    cidade = new TotalGasto {
+                        nome = "SETA."+pais+"."+estado+"."+dRead[0].ToString ().Trim (),
+                        valor = Convert.ToDouble(dRead[1].ToString ().Trim ())
                     };
                     Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
-                    Console.WriteLine("Nome: "+bairro.nome+"\nContagem"+bairro.contagem);
+                    Console.WriteLine("Nome: "+cidade.nome+"\nValor: "+cidade.valor);
+                    listCidades.Add (cidade);
+
+                }
+
+            } catch (Exception msg) {
+                Console.WriteLine (" Erro em Listar Todos" + msg.ToString ());
+            }
+            return listCidades;
+        }
+        public List<TotalGasto> gastoBairros (string pais, string estado, string cidade) { //localhost:5000/api/geoseta/BR
+            List<TotalGasto> listBairros = new List<TotalGasto> ();//Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
+            TotalGasto bairro = new TotalGasto ();
+            int contador=0;
+            try {
+                NpgsqlConnection conn = new NpgsqlConnection (connstring);
+                conn.Open ();
+
+                // Colocar o Pais
+                // Decidir se vai fazer o gasto médio por bairro ou se vai fazer o gasto total, se for o médio é só pegar o total que vem e dividir pela quantidade de pessoas          
+                string sql = String.Format ("select bai.descricao, sum(v.total), count(v.codigo) from pessoas as p join cep on p.cep = cep.codigo join cepbairros as bai on cep.bairro = bai.codigo join cepcidades as cid on cep.cidade = cid.codigo join vendas as v on v.cliente = p.codigo join movimento as m on SUBSTRING(m.auxiliar, 3, 8)::Char(8) = v.codigo and m.operacao = 'VE' where p.codcidade = cep.cidade and p.cep != '' and cid.descricao = '{0}' and cid.uf = '{1}' group by bai.descricao",cidade,estado);
+                NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
+                NpgsqlDataReader dRead = cmd.ExecuteReader ();
+
+                while (dRead.Read ()) {
+                    contador++;
+                    bairro = new TotalGasto {
+                        nome = "SETA."+pais+"."+estado+"."+cidade+"."+dRead[0].ToString ().Trim (),
+                        valor = Convert.ToDouble(dRead[1].ToString ().Trim ())
+                    };
+                    Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
+                    Console.WriteLine("Nome: "+bairro.nome+"\nValor: "+bairro.valor);
                     listBairros.Add (bairro);
 
                 }
@@ -176,20 +226,8 @@ namespace WebAPI_SetaDigital.Controllers
             } catch (Exception msg) {
                 Console.WriteLine (" Erro em Listar Todos" + msg.ToString ());
             }
-
-
-
-
-
-            return null;
+            return listBairros;
         }
-
-
-
-
-
-
-
         //Fim dos novos métodos/////////////////////////////////////////////////////////
 
         public Pessoa BuscarPessoa(string codigo)
