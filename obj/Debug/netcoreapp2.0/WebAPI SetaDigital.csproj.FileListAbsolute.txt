@@ -1,0 +1,20 @@
+C:\Users\bruno.henrique\Documents\webapitreinamentosetadigital\WebAPI SetaDigital\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.deps.json
+C:\Users\bruno.henrique\Documents\webapitreinamentosetadigital\WebAPI SetaDigital\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.runtimeconfig.json
+C:\Users\bruno.henrique\Documents\webapitreinamentosetadigital\WebAPI SetaDigital\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.runtimeconfig.dev.json
+C:\Users\bruno.henrique\Documents\webapitreinamentosetadigital\WebAPI SetaDigital\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.dll
+C:\Users\bruno.henrique\Documents\webapitreinamentosetadigital\WebAPI SetaDigital\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.pdb
+C:\Users\bruno.henrique\Documents\webapitreinamentosetadigital\WebAPI SetaDigital\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.csproj.CoreCompileInputs.cache
+C:\Users\bruno.henrique\Documents\webapitreinamentosetadigital\WebAPI SetaDigital\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.AssemblyInfoInputs.cache
+C:\Users\bruno.henrique\Documents\webapitreinamentosetadigital\WebAPI SetaDigital\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.AssemblyInfo.cs
+C:\Users\bruno.henrique\Documents\webapitreinamentosetadigital\WebAPI SetaDigital\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.dll
+C:\Users\bruno.henrique\Documents\webapitreinamentosetadigital\WebAPI SetaDigital\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.pdb
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.deps.json
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.runtimeconfig.json
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.runtimeconfig.dev.json
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.dll
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.pdb
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.csproj.CoreCompileInputs.cache
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.AssemblyInfoInputs.cache
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.AssemblyInfo.cs
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.dll
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.pdb
