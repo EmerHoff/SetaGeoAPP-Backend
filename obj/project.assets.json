@@ -13152,30 +13152,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\luca.prediger\\.nuget\\packages\\": {},
+    "C:\\Users\\bruno.henrique\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\luca.prediger\\Documents\\app\\app-backend\\WebAPI SetaDigital.csproj",
+      "projectUniqueName": "C:\\Users\\bruno.henrique\\Documents\\SetaAplicativo\\SetaAplicativo\\WebAPI SetaDigital.csproj",
       "projectName": "WebAPI SetaDigital",
-      "projectPath": "C:\\Users\\luca.prediger\\Documents\\app\\app-backend\\WebAPI SetaDigital.csproj",
-      "packagesPath": "C:\\Users\\luca.prediger\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\luca.prediger\\Documents\\app\\app-backend\\obj\\",
+      "projectPath": "C:\\Users\\bruno.henrique\\Documents\\SetaAplicativo\\SetaAplicativo\\WebAPI SetaDigital.csproj",
+      "packagesPath": "C:\\Users\\bruno.henrique\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\bruno.henrique\\Documents\\SetaAplicativo\\SetaAplicativo\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\luca.prediger\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\bruno.henrique\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

@@ -7,7 +7,7 @@ namespace WebAPI_SetaDigital.Model
 {
     public class ContagemMarca
     {
-        public string NomeBairroCidadeUF {get; set;} 
+        public string nome {get; set;} 
         public List<Marca> lstMarca { get; set;}
     }
 }
