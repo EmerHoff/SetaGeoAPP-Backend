@@ -27,6 +27,21 @@ namespace WebAPI_SetaDigital.Controllers
             Console.WriteLine("Contagem de clientes por Bairros");
             return Banco.Instance.contagemClientesBairros(pais,estado,cidade);
         }
+        public List<TotalGasto> gastoEstados(string pais)
+        {
+            Console.WriteLine("Contagem gasto dos clientes por Estados");
+            return Banco.Instance.gastoEstados(pais);
+        }
+        public List<TotalGasto> gastoCidades(string pais, string estado)
+        {
+            Console.WriteLine("Contagem gasto dos clientes por Cidades");
+            return Banco.Instance.gastoCidades(pais,estado);
+        }
+        public List<TotalGasto> gastoBairros(string pais, string estado, string cidade)
+        {
+            Console.WriteLine("Contagem gasto dos clientes por Bairros");
+            return Banco.Instance.gastoBairros(pais,estado,cidade);
+        }
         //Fim dos novos métodos///////////////////////////////////////////
 
         
