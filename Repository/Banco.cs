@@ -42,8 +42,9 @@ namespace WebAPI_SetaDigital.Controllers
         }
 
         //Novos métodos/////////////////////////////////////////////////////////////////
+        //Cria uma lista de ContagemClientes com base no pais para posteriormente passar como JSON para o FrontEnd
         public List<ContagemClientes> contagemClientesUFs (string pais) { //localhost:5000/api/geoseta/BR
-            List<ContagemClientes> listEstados = new List<ContagemClientes> ();//Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
+            List<ContagemClientes> listEstados = new List<ContagemClientes> ();
             ContagemClientes estado = new ContagemClientes ();
             int contador=0;
             try {
@@ -72,8 +73,9 @@ namespace WebAPI_SetaDigital.Controllers
             }
             return listEstados;
         }
+        //Cria uma lista de ContagemClientes que contem a lista de estados e a qtd de clientes para posteriormente passar como JSON para o FrontEnd
         public List<ContagemClientes> contagemClientesCidades (string pais, string estado) { //localhost:5000/api/geoseta/BR
-            List<ContagemClientes> listCidades = new List<ContagemClientes> ();//Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
+            List<ContagemClientes> listCidades = new List<ContagemClientes> ();
             ContagemClientes cidade = new ContagemClientes ();
             int contador=0;
             try {
@@ -102,8 +104,9 @@ namespace WebAPI_SetaDigital.Controllers
             }
             return listCidades;
         }
+        //Cria uma lista de ContagemClientes que contém a lista de bairros e a qtd de clientes para posteriormente passar como JSON para o FrontEnd
         public List<ContagemClientes> contagemClientesBairros (string pais, string estado, string cidade) { //localhost:5000/api/geoseta/BR
-            List<ContagemClientes> listBairros = new List<ContagemClientes> ();//Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
+            List<ContagemClientes> listBairros = new List<ContagemClientes> ();
             ContagemClientes bairro = new ContagemClientes ();
             int contador=0;
             try {
@@ -132,6 +135,61 @@ namespace WebAPI_SetaDigital.Controllers
             }
             return listBairros;
         }
+
+        //Cria uma lista com as marcas mais compradas por bairro
+        public List<ContagemMarca> marcaMaisCompradaBairro(string pais, string estado, string cidade){
+            List<ContagemMarca> lstContagemMarca = new List<ContagemMarca>();
+            try {
+                NpgsqlConnection conn = new NpgsqlConnection (connstring);
+                conn.Open ();
+
+                // Colocar o Pais
+                //Retorna o bairro 
+                string sql = String.Format ("select bai.descricao, mar.descricao, sum(m.quantidade) from pessoas as p" + 
+                    "join cep on p.cep = cep.codigo " +
+                    "join cepbairros as bai on cep.bairro = bai.codigo" +
+                    "join cepcidades as cid on cep.cidade = cid.codigo " +
+                    "join vendas as v on v.cliente = p.codigo" +
+                    "join movimento as m on SUBSTR(m.auxiliar, 3, 8)::Char(8) = v.codigo and m.operacao = 'VE'" +
+                    "join produtos as pro on pro.codigo = substr(m.produto, 1, 6)::Char(6)" +
+                    "join marcas as mar on mar.codigo = pro.marca" +
+                    "where p.codcidade = cep.cidade" + 
+                    "and p.cep != ''" + 
+                    "and cid.descricao = '{0}' " + 
+                    "and cid.uf = '{1}'" +
+                    "group by  bai.descricao, mar.descricao", cidade, estado);
+                NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
+                NpgsqlDataReader dRead = cmd.ExecuteReader ();
+
+                while (dRead.Read ()) {
+                    if
+                    Marca = new ContagemMarca {
+                        nome = dRead[0].ToString ().Trim (),
+                        contagem = Convert.ToInt16(dRead[1].ToString ().Trim ())
+                    };
+                    Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
+                    Console.WriteLine("Nome: "+bairro.nome+"\nContagem"+bairro.contagem);
+                    listBairros.Add (bairro);
+
+                }
+
+            } catch (Exception msg) {
+                Console.WriteLine (" Erro em Listar Todos" + msg.ToString ());
+            }
+
+
+
+
+
+            return null;
+        }
+
+
+
+
+
+
+
         //Fim dos novos métodos/////////////////////////////////////////////////////////
 
         public Pessoa BuscarPessoa(string codigo)
@@ -171,12 +229,10 @@ namespace WebAPI_SetaDigital.Controllers
             return pessoa;
         }
 
-        //todo (3) criem um metodo que Salva o cadastro de um usuário no banco do seta.
         public string CadastrarPessoa(Pessoa pessoa)
         {
             try
             {
-                //Abro conexão com o banco!
                 NpgsqlConnection conn = new NpgsqlConnection(connstring);
                 conn.Open();
 
@@ -293,8 +349,6 @@ namespace WebAPI_SetaDigital.Controllers
             }
             return preco;
         }
-
-
         public void AlterarPessoa(Pessoa pessoa)
         {
             
