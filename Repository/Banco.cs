@@ -15,17 +15,17 @@ namespace WebAPI_SetaDigital.Controllers {
         private string connstring; //string de conexão do banco
 
         //todo (1) Modificar as conexões do banco de dados para sua rede local. - OK
-        // private readonly string host = "10.1.0.43";
-        // private readonly string port = "5432";
-        // private readonly string user = "rede000001";
-        // private readonly string pass = "seta";
-        // private readonly string database = "Bini Backup";
+        private readonly string host = "10.1.0.43";
+        private readonly string port = "5432";
+        private readonly string user = "postgres";
+        private readonly string pass = "seta";
+        private readonly string database = "Bini Backup";
 
-        private  readonly  string  host  =  "demosd.calcontec.com";
-        private  readonly  string  port  =  "5432";
-        private  readonly  string  user  =  "rede000001";
-        private  readonly  string  pass  =  "37dZ50rF";
-        private  readonly  string  database  =  "teste_a";
+        // private  readonly  string  host  =  "demosd.calcontec.com";
+        // private  readonly  string  port  =  "5432";
+        // private  readonly  string  user  =  "rede000001";
+        // private  readonly  string  pass  =  "37dZ50rF";
+        // private  readonly  string  database  =  "teste_a";
 
         private Banco () {
             connstring = String.Format ("Server={0};Port={1};User Id={2};Password={3};Database={4};", host, port, user, pass, database);
@@ -51,7 +51,7 @@ namespace WebAPI_SetaDigital.Controllers {
                 conn.Open ();
 
                 //todo Colocar o Pais
-                string sql = String.Format ("select UF, count(codigo) from pessoas where CEP != '' and UF != 'EX' and cliente = 't' and status = 'S' and status = 'A' group by UF");
+                string sql = String.Format ("select UF, count(codigo) from pessoas where CEP != '' and UF != 'EX' and cliente = 't' and status = 'S' or status = 'A' group by UF");
                 NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
                 NpgsqlDataReader dRead = cmd.ExecuteReader ();
 
@@ -59,7 +59,7 @@ namespace WebAPI_SetaDigital.Controllers {
                     contador++;
                     estado = new ContagemClientes {
                         nome = "SETA." + pais + "." + dRead[0].ToString ().Trim (),
-                        contagem = Convert.ToInt16 (dRead[1].ToString ().Trim ())
+                        contagem = Convert.ToInt32 (dRead[1].ToString ().Trim ())
                     };
                     Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
                     Console.WriteLine ("Nome: " + estado.nome + "\nContagem" + estado.contagem);
@@ -82,7 +82,7 @@ namespace WebAPI_SetaDigital.Controllers {
                 conn.Open ();
 
                 //todo Colocar o pais
-                string sql = String.Format ("select cid.descricao, count(*) from pessoas as p inner join cepcidades as cid on p.codcidade = cid.codigo where cid.uf = '{0}' and p.status = 'S' and p.status = 'A' and p.cliente = 't' group by cid.descricao", estado);
+                string sql = String.Format ("select cid.descricao, count(*) from pessoas as p inner join cepcidades as cid on p.codcidade = cid.codigo where cid.uf = '{0}' and p.status = 'S' or p.status = 'A' and p.cliente = 't' group by cid.descricao", estado);
                 NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
                 NpgsqlDataReader dRead = cmd.ExecuteReader ();
 
@@ -90,7 +90,7 @@ namespace WebAPI_SetaDigital.Controllers {
                     contador++;
                     cidade = new ContagemClientes {
                         nome = "SETA." + pais + "." + estado + "." + dRead[0].ToString ().Trim (),
-                        contagem = Convert.ToInt16 (dRead[1].ToString ().Trim ())
+                        contagem = Convert.ToInt32 (dRead[1].ToString ().Trim ())
                     };
                     Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
                     Console.WriteLine ("Nome: " + cidade.nome + "\nContagem" + cidade.contagem);
@@ -113,7 +113,7 @@ namespace WebAPI_SetaDigital.Controllers {
                 conn.Open ();
 
                 // Colocar o Pais            
-                string sql = String.Format ("select bai.descricao, count(p.codigo) from pessoas as p inner join cep on p.cep = cep.codigo inner join cepbairros as bai on bai.codigo = cep.bairro inner join cepcidades as cid on cep.cidade = cid.codigo where p.codcidade = cep.cidade and cid.descricao = '{0}' and cid.uf = '{1}' and p.status = 'S' and p.status = 'A' and p.cliente = 't' group by bai.descricao", cidade, estado);
+                string sql = String.Format ("select bai.descricao, count(p.codigo) from pessoas as p inner join cep on p.cep = cep.codigo inner join cepbairros as bai on bai.codigo = cep.bairro inner join cepcidades as cid on cep.cidade = cid.codigo where p.codcidade = cep.cidade and cid.descricao = '{0}' and cid.uf = '{1}' and p.status = 'S' or p.status = 'A' and p.cliente = 't' group by bai.descricao", cidade, estado);
                 NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
                 NpgsqlDataReader dRead = cmd.ExecuteReader ();
 
@@ -121,7 +121,7 @@ namespace WebAPI_SetaDigital.Controllers {
                     contador++;
                     bairro = new ContagemClientes {
                         nome = "SETA." + pais + "." + estado + "." + cidade + "." + dRead[0].ToString ().Trim (),
-                        contagem = Convert.ToInt16 (dRead[1].ToString ().Trim ())
+                        contagem = Convert.ToInt32 (dRead[1].ToString ().Trim ())
                     };
                     Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
                     Console.WriteLine ("Nome: " + bairro.nome + "\nContagem" + bairro.contagem);
@@ -435,6 +435,46 @@ namespace WebAPI_SetaDigital.Controllers {
                 }
                 bairro = new ContagemMarca {
                     nome = "SETA." + pais + "." + estado + "." + cidade + "." + auxiliar,
+                    lstMarca = listaMarcas
+                };
+                Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
+                Console.WriteLine ("Nome: " + bairro.nome);
+                listBairros.Add (bairro);
+
+            } catch (Exception msg) {
+                Console.WriteLine (" Erro em Listar Todos" + msg.ToString ());
+            }
+            return listBairros;
+        }
+        public List<ContagemMarca> listMarcasCidadeSomente (string pais, string estado, string cidade, int qtd) { //localhost:5000/api/geoseta/BR
+            List<ContagemMarca> listBairros = new List<ContagemMarca> (); //Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
+            ContagemMarca bairro = new ContagemMarca ();
+            int contador = 0;
+            try {
+                NpgsqlConnection conn = new NpgsqlConnection (connstring);
+                conn.Open ();
+
+                // Colocar o Pais
+                // Decidir se vai fazer o gasto médio por bairro ou se vai fazer o gasto total, se for o médio é só pegar o total que vem e dividir pela quantidade de pessoas          
+                string sql = String.Format ("select cid.descricao, mar.descricao, sum(m.quantidade) from pessoas as p join cepcidades as cid on p.codcidade = cid.codigo join vendas as v on v.cliente = p.codigo join movimento as m on SUBSTR(m.auxiliar, 3, 8)::Char(8) = v.codigo AND m.operacao = 'VE' join produtos as pro on pro.codigo = substr(m.produto, 1, 6)::Char(6) join marcas as mar on mar.codigo = pro.marca where cid.uf = 'PR' and cid.descricao = 'LONDRINA' group by cid.descricao, mar.descricao order by sum desc", estado, cidade);
+                NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
+                NpgsqlDataReader dRead = cmd.ExecuteReader ();
+                List<Marca> listaMarcas = new List<Marca> ();
+                Marca marca;
+                int limit = 0;
+                while (dRead.Read ()) {
+                    if(limit<=qtd){
+                        marca = new Marca () {
+                            Nome = dRead[1].ToString ().Trim (),
+                            QtdVendasMarca = Convert.ToInt32 (dRead[2].ToString ().Trim ())
+                        };
+                        listaMarcas.Add (marca);
+                        limit++;
+                    }
+                    else break; 
+                }
+                bairro = new ContagemMarca {
+                    nome = "SETA." + pais + "." + estado + "." + cidade,
                     lstMarca = listaMarcas
                 };
                 Console.WriteLine ("Adicionando Pessoa Nº: " + contador);

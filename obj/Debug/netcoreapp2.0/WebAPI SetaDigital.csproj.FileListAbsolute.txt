@@ -28,3 +28,13 @@ C:\Users\luca.prediger\Documents\app\app-backend\obj\Debug\netcoreapp2.0\WebAPI 
 C:\Users\luca.prediger\Documents\app\app-backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.AssemblyInfo.cs
 C:\Users\luca.prediger\Documents\app\app-backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.dll
 C:\Users\luca.prediger\Documents\app\app-backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.pdb
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.deps.json
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.runtimeconfig.json
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.runtimeconfig.dev.json
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.dll
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.pdb
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.csproj.CoreCompileInputs.cache
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.AssemblyInfoInputs.cache
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.AssemblyInfo.cs
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.dll
+C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.pdb

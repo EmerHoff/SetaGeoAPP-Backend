@@ -13158,11 +13158,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\bruno.henrique\\Documents\\SetaAplicativo\\SetaAplicativo\\WebAPI SetaDigital.csproj",
+      "projectUniqueName": "C:\\Users\\bruno.henrique\\Documents\\SetaAplicativo\\SetaAplicativo Backend\\WebAPI SetaDigital.csproj",
       "projectName": "WebAPI SetaDigital",
-      "projectPath": "C:\\Users\\bruno.henrique\\Documents\\SetaAplicativo\\SetaAplicativo\\WebAPI SetaDigital.csproj",
+      "projectPath": "C:\\Users\\bruno.henrique\\Documents\\SetaAplicativo\\SetaAplicativo Backend\\WebAPI SetaDigital.csproj",
       "packagesPath": "C:\\Users\\bruno.henrique\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\bruno.henrique\\Documents\\SetaAplicativo\\SetaAplicativo\\obj\\",
+      "outputPath": "C:\\Users\\bruno.henrique\\Documents\\SetaAplicativo\\SetaAplicativo Backend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

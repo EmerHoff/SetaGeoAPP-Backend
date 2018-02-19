@@ -97,6 +97,17 @@ namespace WebAPI_SetaDigital.Controllers {
             List<ContagemMarca> lista = crud.listMarcasBairros(pais, estado, cidade, qtd);
             return new JsonResult(lista);
         }
+        [HttpGet]
+        [Route ("api/geoseta/marca/{qtd}/{pais}/{estado}/{cidade}/somente")]
+        public  JsonResult  listMarcasCidadeSomente (int qtd, string pais, string estado, string cidade) {
+            Console.WriteLine("Pais = "+pais);
+            Console.WriteLine("Estado = "+estado);
+            Console.WriteLine("Cidade = "+cidade);
+            Console.WriteLine("Qtd = "+qtd);
+            CRUD crud = new CRUD();
+            List<ContagemMarca> lista = crud.listMarcasCidadeSomente(pais, estado, cidade, qtd);
+            return new JsonResult(lista);
+        }
         //Fim dos novos métodos///////////////////////////////////////
         [HttpGet ("{codigo}")]
         [Route ("api/geoseta/pessoas/buscar")]
