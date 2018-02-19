@@ -15,7 +15,6 @@ namespace WebAPI_SetaDigital.Controllers {
         [HttpGet]
         [Route ("api/geoseta/{pais}")]
         public  JsonResult  ContagemClientesUFs (string  pais) {
-            //588655 senha da 
             Console.WriteLine("Pais = "+pais);
             CRUD crud = new CRUD();
             List<ContagemClientes> lista = crud.contagemClientesUFs(pais);
@@ -25,7 +24,6 @@ namespace WebAPI_SetaDigital.Controllers {
         [HttpGet]
         [Route ("api/geoseta/{pais}/{estado}")]
         public  JsonResult  ContagemClientesCidades (string  pais, string estado) {
-            //588655 senha da 
             Console.WriteLine("Pais = "+pais);
             Console.WriteLine("Estado = "+estado);
             CRUD crud = new CRUD();
@@ -35,7 +33,6 @@ namespace WebAPI_SetaDigital.Controllers {
         [HttpGet]
         [Route ("api/geoseta/{pais}/{estado}/{cidade}")]
         public  JsonResult  ContagemClientesBairros (string  pais, string estado, string cidade) {
-            //588655 senha da 
             Console.WriteLine("Pais = "+pais);
             Console.WriteLine("Estado = "+estado);
             Console.WriteLine("Cidade = "+cidade);
@@ -46,7 +43,6 @@ namespace WebAPI_SetaDigital.Controllers {
         [HttpGet]
         [Route ("api/geoseta/gasto/{pais}")]
         public  JsonResult  gastoCidades (string  pais) {
-            //588655 senha da 
             Console.WriteLine("Pais = "+pais);
             CRUD crud = new CRUD();
             List<TotalGasto> lista = crud.gastoEstados(pais);
@@ -55,7 +51,6 @@ namespace WebAPI_SetaDigital.Controllers {
         [HttpGet]
         [Route ("api/geoseta/gasto/{pais}/{estado}")]
         public  JsonResult  gastoCidades (string  pais, string estado) {
-            //588655 senha da 
             Console.WriteLine("Pais = "+pais);
             Console.WriteLine("Estado = "+estado);
             CRUD crud = new CRUD();
@@ -65,7 +60,6 @@ namespace WebAPI_SetaDigital.Controllers {
         [HttpGet]
         [Route ("api/geoseta/gasto/{pais}/{estado}/{cidade}")]
         public  JsonResult  gastoBairros (string  pais, string estado, string cidade) {
-            //588655 senha da 
             Console.WriteLine("Pais = "+pais);
             Console.WriteLine("Estado = "+estado);
             Console.WriteLine("Cidade = "+cidade);
@@ -76,7 +70,6 @@ namespace WebAPI_SetaDigital.Controllers {
         [HttpGet]
         [Route ("api/geoseta/marca/{qtd}/{pais}")]
         public  JsonResult  listMarcasUFs (int qtd, string pais) {
-            //588655 senha da 
             Console.WriteLine("Pais = "+pais);
             Console.WriteLine("Qtd = "+qtd);
             CRUD crud = new CRUD();
@@ -86,7 +79,6 @@ namespace WebAPI_SetaDigital.Controllers {
         [HttpGet]
         [Route ("api/geoseta/marca/{qtd}/{pais}/{estado}")]
         public  JsonResult  listMarcasCidades (int qtd, string pais, string estado) {
-            //588655 senha da 
             Console.WriteLine("Pais = "+pais);
             Console.WriteLine("Estado = "+estado);
             Console.WriteLine("Qtd = "+qtd);
@@ -97,7 +89,6 @@ namespace WebAPI_SetaDigital.Controllers {
         [HttpGet]
         [Route ("api/geoseta/marca/{qtd}/{pais}/{estado}/{cidade}")]
         public  JsonResult  listMarcasBairros (int qtd, string pais, string estado, string cidade) {
-            //588655 senha da 
             Console.WriteLine("Pais = "+pais);
             Console.WriteLine("Estado = "+estado);
             Console.WriteLine("Cidade = "+cidade);
