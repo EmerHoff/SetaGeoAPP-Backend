@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebAPI_SetaDigital.Model;
 using Newtonsoft.Json;
+using WebAPI_SetaDigital.Model;
 
 namespace WebAPI_SetaDigital.Controllers {
     [Produces ("application/json")]
@@ -15,98 +15,143 @@ namespace WebAPI_SetaDigital.Controllers {
         [HttpGet]
         [Route ("api/geoseta/{pais}")]
         public  JsonResult  ContagemClientesUFs (string  pais) {
-            Console.WriteLine("Pais = "+pais);
-            CRUD crud = new CRUD();
-            List<ContagemClientes> lista = crud.contagemClientesUFs(pais);
-            return new JsonResult(lista);
+            Console.WriteLine ("Pais = " + pais);
+            CRUD crud = new CRUD ();
+            List<ContagemClientes> lista = crud.contagemClientesUFs (pais);
+            string aux = "{";
+            foreach (ContagemClientes cc in lista) {
+                aux += $"\"{cc.nome}\": {cc.contagem}, ";
+            }
+            aux += "}";
+            aux = aux.Replace(", }","}");
+            return new JsonResult (aux);
         }
 
         [HttpGet]
         [Route ("api/geoseta/{pais}/{estado}")]
         public  JsonResult  ContagemClientesCidades (string  pais, string estado) {
-            Console.WriteLine("Pais = "+pais);
-            Console.WriteLine("Estado = "+estado);
-            CRUD crud = new CRUD();
-            List<ContagemClientes> lista = crud.contagemClientesCidades(pais, estado);
-            return new JsonResult(lista);
+            Console.WriteLine ("Pais = " + pais);
+            Console.WriteLine ("Estado = " + estado);
+            CRUD crud = new CRUD ();
+            List<ContagemClientes> lista = crud.contagemClientesCidades (pais, estado);
+            string aux = "{";
+            foreach (ContagemClientes cc in lista) {
+                aux += $"\"{cc.nome}\": {cc.contagem}, ";
+            }
+            aux += "}";
+            aux = aux.Replace(", }","}");
+            return new JsonResult (aux);
         }
+
         [HttpGet]
         [Route ("api/geoseta/{pais}/{estado}/{cidade}")]
         public  JsonResult  ContagemClientesBairros (string  pais, string estado, string cidade) {
-            Console.WriteLine("Pais = "+pais);
-            Console.WriteLine("Estado = "+estado);
-            Console.WriteLine("Cidade = "+cidade);
-            CRUD crud = new CRUD();
-            List<ContagemClientes> lista = crud.contagemClientesBairros(pais, estado, cidade);
-            return new JsonResult(lista);
+            Console.WriteLine ("Pais = " + pais);
+            Console.WriteLine ("Estado = " + estado);
+            Console.WriteLine ("Cidade = " + cidade);
+            CRUD crud = new CRUD ();
+            List<ContagemClientes> lista = crud.contagemClientesBairros (pais, estado, cidade);
+            string aux = "{";
+            foreach (ContagemClientes cc in lista) {
+                aux += $"\"{cc.nome}\": {cc.contagem}, ";
+            }
+            aux += "}";
+            aux = aux.Replace(", }","}");
+            return new JsonResult (aux);
         }
+
         [HttpGet]
         [Route ("api/geoseta/gasto/{pais}")]
         public  JsonResult  gastoCidades (string  pais) {
-            Console.WriteLine("Pais = "+pais);
-            CRUD crud = new CRUD();
-            List<TotalGasto> lista = crud.gastoEstados(pais);
-            return new JsonResult(lista);
+            Console.WriteLine ("Pais = " + pais);
+            CRUD crud = new CRUD ();
+            List<TotalGasto> lista = crud.gastoEstados (pais);
+            string aux = "{";
+            foreach (TotalGasto cc in lista) {
+                aux += $"\"{cc.nome}\": {cc.valor}, ";
+            }
+            aux += "}";
+            aux = aux.Replace(", }","}");
+            return new JsonResult (aux);
         }
+
         [HttpGet]
         [Route ("api/geoseta/gasto/{pais}/{estado}")]
         public  JsonResult  gastoCidades (string  pais, string estado) {
-            Console.WriteLine("Pais = "+pais);
-            Console.WriteLine("Estado = "+estado);
-            CRUD crud = new CRUD();
-            List<TotalGasto> lista = crud.gastoCidades(pais, estado);
-            return new JsonResult(lista);
+            Console.WriteLine ("Pais = " + pais);
+            Console.WriteLine ("Estado = " + estado);
+            CRUD crud = new CRUD ();
+            List<TotalGasto> lista = crud.gastoCidades (pais, estado);
+            string aux = "{";
+            foreach (TotalGasto cc in lista) {
+                aux += $"\"{cc.nome}\": {cc.valor}, ";
+            }
+            aux += "}";
+            aux = aux.Replace(", }","}");
+            return new JsonResult (aux);
         }
+
         [HttpGet]
         [Route ("api/geoseta/gasto/{pais}/{estado}/{cidade}")]
         public  JsonResult  gastoBairros (string  pais, string estado, string cidade) {
-            Console.WriteLine("Pais = "+pais);
-            Console.WriteLine("Estado = "+estado);
-            Console.WriteLine("Cidade = "+cidade);
-            CRUD crud = new CRUD();
-            List<TotalGasto> lista = crud.gastoBairros(pais, estado, cidade);
-            return new JsonResult(lista);
+            Console.WriteLine ("Pais = " + pais);
+            Console.WriteLine ("Estado = " + estado);
+            Console.WriteLine ("Cidade = " + cidade);
+            CRUD crud = new CRUD ();
+            List<TotalGasto> lista = crud.gastoBairros (pais, estado, cidade);
+            string aux = "{";
+            foreach (TotalGasto cc in lista) {
+                aux += $"\"{cc.nome}\": {cc.valor}, ";
+            }
+            aux += "}";
+            aux = aux.Replace(", }","}");
+            return new JsonResult (aux);
         }
+
         [HttpGet]
         [Route ("api/geoseta/marca/{qtd}/{pais}")]
         public  JsonResult  listMarcasUFs (int qtd, string pais) {
-            Console.WriteLine("Pais = "+pais);
-            Console.WriteLine("Qtd = "+qtd);
-            CRUD crud = new CRUD();
-            List<ContagemMarca> lista = crud.listMarcasUFs(pais, qtd);
-            return new JsonResult(lista);
+            Console.WriteLine ("Pais = " + pais);
+            Console.WriteLine ("Qtd = " + qtd);
+            CRUD crud = new CRUD ();
+            List<ContagemMarca> lista = crud.listMarcasUFs (pais, qtd);
+            //Todo achar um jeito para mandar as marcas
+            return new JsonResult (lista);
         }
+
         [HttpGet]
         [Route ("api/geoseta/marca/{qtd}/{pais}/{estado}")]
         public  JsonResult  listMarcasCidades (int qtd, string pais, string estado) {
-            Console.WriteLine("Pais = "+pais);
-            Console.WriteLine("Estado = "+estado);
-            Console.WriteLine("Qtd = "+qtd);
-            CRUD crud = new CRUD();
-            List<ContagemMarca> lista = crud.listMarcasCidades(pais, estado, qtd);
-            return new JsonResult(lista);
+            Console.WriteLine ("Pais = " + pais);
+            Console.WriteLine ("Estado = " + estado);
+            Console.WriteLine ("Qtd = " + qtd);
+            CRUD crud = new CRUD ();
+            List<ContagemMarca> lista = crud.listMarcasCidades (pais, estado, qtd);
+            return new JsonResult (lista);
         }
+
         [HttpGet]
         [Route ("api/geoseta/marca/{qtd}/{pais}/{estado}/{cidade}")]
         public  JsonResult  listMarcasBairros (int qtd, string pais, string estado, string cidade) {
-            Console.WriteLine("Pais = "+pais);
-            Console.WriteLine("Estado = "+estado);
-            Console.WriteLine("Cidade = "+cidade);
-            Console.WriteLine("Qtd = "+qtd);
-            CRUD crud = new CRUD();
-            List<ContagemMarca> lista = crud.listMarcasBairros(pais, estado, cidade, qtd);
-            return new JsonResult(lista);
+            Console.WriteLine ("Pais = " + pais);
+            Console.WriteLine ("Estado = " + estado);
+            Console.WriteLine ("Cidade = " + cidade);
+            Console.WriteLine ("Qtd = " + qtd);
+            CRUD crud = new CRUD ();
+            List<ContagemMarca> lista = crud.listMarcasBairros (pais, estado, cidade, qtd);
+            return new JsonResult (lista);
         }
+
         [HttpGet]
         [Route ("api/geoseta/marca/{qtd}/{pais}/{estado}/{cidade}/somente")]
         public  JsonResult  listMarcasCidadeSomente (int qtd, string pais, string estado, string cidade) {
-            Console.WriteLine("Pais = "+pais);
-            Console.WriteLine("Estado = "+estado);
-            Console.WriteLine("Cidade = "+cidade);
-            Console.WriteLine("Qtd = "+qtd);
-            CRUD crud = new CRUD();
-            List<ContagemMarca> lista = crud.listMarcasCidadeSomente(pais, estado, cidade, qtd);
-            return new JsonResult(lista);
+            Console.WriteLine ("Pais = " + pais);
+            Console.WriteLine ("Estado = " + estado);
+            Console.WriteLine ("Cidade = " + cidade);
+            Console.WriteLine ("Qtd = " + qtd);
+            CRUD crud = new CRUD ();
+            List<ContagemMarca> lista = crud.listMarcasCidadeSomente (pais, estado, cidade, qtd);
+            return new JsonResult (lista);
         }
         //Fim dos novos métodos///////////////////////////////////////
         [HttpGet ("{codigo}")]

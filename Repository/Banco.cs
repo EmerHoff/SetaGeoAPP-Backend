@@ -454,6 +454,7 @@ namespace WebAPI_SetaDigital.Controllers {
                 NpgsqlConnection conn = new NpgsqlConnection (connstring);
                 conn.Open ();
 
+
                 // Colocar o Pais
                 // Decidir se vai fazer o gasto médio por bairro ou se vai fazer o gasto total, se for o médio é só pegar o total que vem e dividir pela quantidade de pessoas          
                 string sql = String.Format ("select cid.descricao, mar.descricao, sum(m.quantidade) from pessoas as p join cepcidades as cid on p.codcidade = cid.codigo join vendas as v on v.cliente = p.codigo join movimento as m on SUBSTR(m.auxiliar, 3, 8)::Char(8) = v.codigo AND m.operacao = 'VE' join produtos as pro on pro.codigo = substr(m.produto, 1, 6)::Char(6) join marcas as mar on mar.codigo = pro.marca where cid.uf = 'PR' and cid.descricao = 'LONDRINA' group by cid.descricao, mar.descricao order by sum desc", estado, cidade);
