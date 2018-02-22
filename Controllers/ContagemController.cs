@@ -68,7 +68,8 @@ namespace WebAPI_SetaDigital.Controllers {
             List<TotalGasto> lista = crud.gastoEstados (pais);
             string aux = "{";
             foreach (TotalGasto cc in lista) {
-                aux += $"\"{cc.nome}\": {cc.valor}, ";
+                string value = cc.valor.ToString().Replace(",",".");
+                aux += $"\"{cc.nome}\": {value}, ";
             }
             aux += "}";
             aux = aux.Replace(", }","}");
@@ -84,7 +85,8 @@ namespace WebAPI_SetaDigital.Controllers {
             List<TotalGasto> lista = crud.gastoCidades (pais, estado);
             string aux = "{";
             foreach (TotalGasto cc in lista) {
-                aux += $"\"{cc.nome}\": {cc.valor}, ";
+                string value = cc.valor.ToString().Replace(",",".");
+                aux += $"\"{cc.nome}\": {value}, ";
             }
             aux += "}";
             aux = aux.Replace(", }","}");
@@ -101,7 +103,8 @@ namespace WebAPI_SetaDigital.Controllers {
             List<TotalGasto> lista = crud.gastoBairros (pais, estado, cidade);
             string aux = "{";
             foreach (TotalGasto cc in lista) {
-                aux += $"\"{cc.nome}\": {cc.valor}, ";
+                string value = cc.valor.ToString().Replace(",",".");
+                aux += $"\"{cc.nome}\": {value}, ";
             }
             aux += "}";
             aux = aux.Replace(", }","}");

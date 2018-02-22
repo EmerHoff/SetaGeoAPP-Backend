@@ -51,7 +51,7 @@ namespace WebAPI_SetaDigital.Controllers {
                 conn.Open ();
 
                 //todo Colocar o Pais
-                string sql = String.Format ("select UF, count(codigo) from pessoas where CEP != '' and UF != 'EX' and cliente = 't' and status = 'S' or status = 'A' group by UF");
+                string sql = String.Format ("select UF, count(codigo) from pessoas where UF != '' and UF != 'EX' and cliente = 't' and (status = 'A' or status = 'S') group by UF");
                 NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
                 NpgsqlDataReader dRead = cmd.ExecuteReader ();
 
@@ -82,7 +82,7 @@ namespace WebAPI_SetaDigital.Controllers {
                 conn.Open ();
 
                 //todo Colocar o pais
-                string sql = String.Format ("select cid.descricao, count(*) from pessoas as p inner join cepcidades as cid on p.codcidade = cid.codigo where cid.uf = '{0}' and p.status = 'S' or p.status = 'A' and p.cliente = 't' group by cid.descricao", estado);
+                string sql = String.Format ("select cid.descricao, count(*) from pessoas as p inner join cepcidades as cid on p.codcidade = cid.codigo where cid.uf = '{0}' and (p.status = 'S' or p.status = 'A') and p.cliente = 't' group by cid.descricao", estado);
                 NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
                 NpgsqlDataReader dRead = cmd.ExecuteReader ();
 
@@ -113,7 +113,7 @@ namespace WebAPI_SetaDigital.Controllers {
                 conn.Open ();
 
                 // Colocar o Pais            
-                string sql = String.Format ("select bai.descricao, count(p.codigo) from pessoas as p inner join cep on p.cep = cep.codigo inner join cepbairros as bai on bai.codigo = cep.bairro inner join cepcidades as cid on cep.cidade = cid.codigo where p.codcidade = cep.cidade and cid.descricao = '{0}' and cid.uf = '{1}' and p.status = 'S' or p.status = 'A' and p.cliente = 't' group by bai.descricao", cidade, estado);
+                string sql = String.Format ("select bai.descricao, count(p.codigo) from pessoas as p inner join cep on p.cep = cep.codigo inner join cepbairros as bai on bai.codigo = cep.bairro inner join cepcidades as cid on cep.cidade = cid.codigo where p.codcidade = cep.cidade and cid.descricao = '{0}' and cid.uf = '{1}' and (p.status = 'S' or p.status = 'A') and p.cliente = 't' group by bai.descricao", cidade, estado);
                 NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
                 NpgsqlDataReader dRead = cmd.ExecuteReader ();
 
