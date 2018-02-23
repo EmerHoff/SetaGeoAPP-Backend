@@ -42,6 +42,8 @@ namespace WebAPI_SetaDigital.Controllers {
 
         //Novos métodos/////////////////////////////////////////////////////////////////
         //Cria uma lista de ContagemClientes com base no pais para posteriormente passar como JSON para o FrontEnd
+        //faz a pesquisa com base na UF da pessoa e onde os campos de bairro, cep, cidade nao são vazios para não resultar
+        //divergencias com os outros métodos
         public List<ContagemClientes> contagemClientesUFs (string pais) { //localhost:5000/api/geoseta/BR
             List<ContagemClientes> listEstados = new List<ContagemClientes> ();
             ContagemClientes estado = new ContagemClientes ();
@@ -51,7 +53,10 @@ namespace WebAPI_SetaDigital.Controllers {
                 conn.Open ();
 
                 //todo Colocar o Pais
-                string sql = String.Format ("select UF, count(codigo) from pessoas where UF != '' and UF != 'EX' and cliente = 't' and (status = 'A' or status = 'S') group by UF");
+                string sql = String.Format ("select UF, count(codigo) from pessoas " +
+                                            "where UF != '' and UF != 'EX' and cliente = 't' " +
+                                            "and bairro != '' and cidade !='' and cep != '' " +
+                                            "and (status = 'A' or status = 'S') group by UF");
                 NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
                 NpgsqlDataReader dRead = cmd.ExecuteReader ();
 
@@ -82,7 +87,11 @@ namespace WebAPI_SetaDigital.Controllers {
                 conn.Open ();
 
                 //todo Colocar o pais
-                string sql = String.Format ("select cid.descricao, count(*) from pessoas as p inner join cepcidades as cid on p.codcidade = cid.codigo where cid.uf = '{0}' and (p.status = 'S' or p.status = 'A') and p.cliente = 't' group by cid.descricao", estado);
+                string sql = String.Format ("select cid.descricao, count(p.codigo) from pessoas as p " +
+                                                "inner join cepcidades as cid on p.codcidade = cid.codigo " +
+                                                "where cid.uf = '{0}' and (p.status = 'S' or p.status = 'A') and p.cliente = 't' " +
+                                                "and p.bairro != '' and p.cidade !='' and p.cep != '' " +
+                                                "group by cid.descricao", estado);
                 NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
                 NpgsqlDataReader dRead = cmd.ExecuteReader ();
 
@@ -113,7 +122,15 @@ namespace WebAPI_SetaDigital.Controllers {
                 conn.Open ();
 
                 // Colocar o Pais            
-                string sql = String.Format ("select bai.descricao, count(p.codigo) from pessoas as p inner join cep on p.cep = cep.codigo inner join cepbairros as bai on bai.codigo = cep.bairro inner join cepcidades as cid on cep.cidade = cid.codigo where p.codcidade = cep.cidade and cid.descricao = '{0}' and cid.uf = '{1}' and (p.status = 'S' or p.status = 'A') and p.cliente = 't' group by bai.descricao", cidade, estado);
+                string sql = String.Format ("select bai.descricao, count(p.codigo) from pessoas as p " +
+                                                "inner join cep on p.cep = cep.codigo " +
+                                                "inner join cepbairros as bai on bai.codigo = cep.bairro " +
+                                                "inner join cepcidades as cid on cep.cidade = cid.codigo " +
+                                                "where p.codcidade = cep.cidade and cid.descricao = '{0}' " +
+                                                "and cid.uf = '{1}' and (p.status = 'S' or p.status = 'A') " +
+                                                "and p.bairro != '' and p.cidade !='' and p.cep != '' " +
+                                                "and p.cliente = 't' group by bai.descricao", cidade, estado);
+
                 NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
                 NpgsqlDataReader dRead = cmd.ExecuteReader ();
 
@@ -237,7 +254,11 @@ namespace WebAPI_SetaDigital.Controllers {
 
                 // Colocar o Pais
                 // Decidir se vai fazer o gasto médio por bairro ou se vai fazer o gasto total, se for o médio é só pegar o total que vem e dividir pela quantidade de pessoas          
-                string sql = String.Format ("select p.UF, mar.descricao, count(m.quantidade) from pessoas as p join vendas as v on v.cliente = p.codigo join movimento as m on SUBSTR(m.auxiliar, 3, 8)::Char(8) = v.codigo AND m.operacao = 'VE' join produtos as pro on pro.codigo = substr(m.produto, 1, 6)::Char(6) join marcas as mar on mar.codigo = pro.marca where p.UF != '' and p.UF != 'EX' and p.cliente = 't' group by p.uf, mar.descricao order by p.UF, count desc");
+                string sql = String.Format ("select p.UF, mar.descricao, count(m.quantidade) from pessoas as p "+
+                "join vendas as v on v.cliente = p.codigo join movimento as m on SUBSTR(m.auxiliar, 3, 8)::Char(8) = v.codigo"+
+                " AND m.operacao = 'VE' join produtos as pro on pro.codigo = substr(m.produto, 1, 6)::Char(6)"+
+                " join marcas as mar on mar.codigo = pro.marca where p.UF != '' "+
+                " and p.UF != 'EX' and p.cliente = 't' group by p.uf, mar.descricao order by p.UF, count desc");
                 NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
                 NpgsqlDataReader dRead = cmd.ExecuteReader ();
 
@@ -383,7 +404,9 @@ namespace WebAPI_SetaDigital.Controllers {
 
                 // Colocar o Pais
                 // Decidir se vai fazer o gasto médio por bairro ou se vai fazer o gasto total, se for o médio é só pegar o total que vem e dividir pela quantidade de pessoas          
-                string sql = String.Format ("select bai.descricao, mar.descricao, sum(m.quantidade) from pessoas as p  join cep on p.cep = cep.codigo join cepbairros as bai on cep.bairro = bai.codigo join cepcidades as cid on cep.cidade = cid.codigo join vendas as v on v.cliente = p.codigo join movimento as m on SUBSTR(m.auxiliar, 3, 8)::Char(8) = v.codigo and m.operacao = 'VE' join produtos as pro on pro.codigo = substr(m.produto, 1, 6)::Char(6) join marcas as mar on mar.codigo = pro.marca where p.codcidade = cep.cidade and p.cep != '' and cid.descricao = '{0}' and cid.uf = '{1}' group by bai.descricao, mar.descricao order by bai.descricao, sum desc", cidade, estado);
+                string sql = String.Format ("select bai.descricao, mar.descricao, sum(m.quantidade) from pessoas as p "+
+                "join cep on p.cep = cep.codigo join cepbairros as bai on cep.bairro = bai.codigo " +
+                "join cepcidades as cid on cep.cidade = cid.codigo join vendas as v on v.cliente = p.codigo join movimento as m on SUBSTR(m.auxiliar, 3, 8)::Char(8) = v.codigo and m.operacao = 'VE' join produtos as pro on pro.codigo = substr(m.produto, 1, 6)::Char(6) join marcas as mar on mar.codigo = pro.marca where p.codcidade = cep.cidade and p.cep != '' and cid.descricao = '{0}' and cid.uf = '{1}' group by bai.descricao, mar.descricao order by bai.descricao, sum desc", cidade, estado);
                 NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
                 NpgsqlDataReader dRead = cmd.ExecuteReader ();
 
