@@ -18,13 +18,13 @@ namespace WebAPI_SetaDigital.Controllers {
             Console.WriteLine ("Pais = " + pais);
             CRUD crud = new CRUD ();
             List<ContagemClientes> lista = crud.contagemClientesUFs (pais);
-            string aux = "{";
-            foreach (ContagemClientes cc in lista) {
-                aux += $"\"{cc.nome}\": {cc.contagem}, ";
-            }
-            aux += "}";
-            aux = aux.Replace(", }","}");
-            return new JsonResult (aux);
+            //string aux = "{";
+            //foreach (ContagemClientes cc in lista) {
+            //    aux += $"\"{cc.nome}\": {cc.contagem}, ";
+            //}
+            //aux += "}";
+            //aux = aux.Replace(", }","}");
+            return new JsonResult (lista);
         }
 
         [HttpGet]
@@ -34,13 +34,13 @@ namespace WebAPI_SetaDigital.Controllers {
             Console.WriteLine ("Estado = " + estado);
             CRUD crud = new CRUD ();
             List<ContagemClientes> lista = crud.contagemClientesCidades (pais, estado);
-            string aux = "{";
-            foreach (ContagemClientes cc in lista) {
-                aux += $"\"{cc.nome}\": {cc.contagem}, ";
-            }
-            aux += "}";
-            aux = aux.Replace(", }","}");
-            return new JsonResult (aux);
+            // string aux = "{";
+            // foreach (ContagemClientes cc in lista) {
+            //     aux += $"\"{cc.nome}\": {cc.contagem}, ";
+            // }
+            // aux += "}";
+            // aux = aux.Replace(", }","}");
+            return new JsonResult (lista);
         }
 
         [HttpGet]
@@ -51,13 +51,13 @@ namespace WebAPI_SetaDigital.Controllers {
             Console.WriteLine ("Cidade = " + cidade);
             CRUD crud = new CRUD ();
             List<ContagemClientes> lista = crud.contagemClientesBairros (pais, estado, cidade);
-            string aux = "{";
-            foreach (ContagemClientes cc in lista) {
-                aux += $"\"{cc.nome}\": {cc.contagem}, ";
-            }
-            aux += "}";
-            aux = aux.Replace(", }","}");
-            return new JsonResult (aux);
+            // string aux = "{";
+            // foreach (ContagemClientes cc in lista) {
+            //     aux += $"\"{cc.nome}\": {cc.contagem}, ";
+            // }
+            // aux += "}";
+            // aux = aux.Replace(", }","}");
+            return new JsonResult (lista);
         }
 
         [HttpGet]
@@ -66,14 +66,14 @@ namespace WebAPI_SetaDigital.Controllers {
             Console.WriteLine ("Pais = " + pais);
             CRUD crud = new CRUD ();
             List<TotalGasto> lista = crud.gastoEstados (pais);
-            string aux = "{";
-            foreach (TotalGasto cc in lista) {
-                string value = cc.valor.ToString().Replace(",",".");
-                aux += $"\"{cc.nome}\": {value}, ";
-            }
-            aux += "}";
-            aux = aux.Replace(", }","}");
-            return new JsonResult (aux);
+            // string aux = "{";
+            // foreach (TotalGasto cc in lista) {
+            //     string value = cc.valor.ToString().Replace(",",".");
+            //     aux += $"\"{cc.nome}\": {value}, ";
+            // }
+            // aux += "}";
+            // aux = aux.Replace(", }","}");
+            return new JsonResult (lista);
         }
 
         [HttpGet]
@@ -83,14 +83,14 @@ namespace WebAPI_SetaDigital.Controllers {
             Console.WriteLine ("Estado = " + estado);
             CRUD crud = new CRUD ();
             List<TotalGasto> lista = crud.gastoCidades (pais, estado);
-            string aux = "{";
-            foreach (TotalGasto cc in lista) {
-                string value = cc.valor.ToString().Replace(",",".");
-                aux += $"\"{cc.nome}\": {value}, ";
-            }
-            aux += "}";
-            aux = aux.Replace(", }","}");
-            return new JsonResult (aux);
+            // string aux = "{";
+            // foreach (TotalGasto cc in lista) {
+            //     string value = cc.valor.ToString().Replace(",",".");
+            //     aux += $"\"{cc.nome}\": {value}, ";
+            // }
+            // aux += "}";
+            // aux = aux.Replace(", }","}");
+            return new JsonResult (lista);
         }
 
         [HttpGet]
@@ -101,14 +101,14 @@ namespace WebAPI_SetaDigital.Controllers {
             Console.WriteLine ("Cidade = " + cidade);
             CRUD crud = new CRUD ();
             List<TotalGasto> lista = crud.gastoBairros (pais, estado, cidade);
-            string aux = "{";
-            foreach (TotalGasto cc in lista) {
-                string value = cc.valor.ToString().Replace(",",".");
-                aux += $"\"{cc.nome}\": {value}, ";
-            }
-            aux += "}";
-            aux = aux.Replace(", }","}");
-            return new JsonResult (aux);
+            // string aux = "{";
+            // foreach (TotalGasto cc in lista) {
+            //     string value = cc.valor.ToString().Replace(",",".");
+            //     aux += $"\"{cc.nome}\": {value}, ";
+            // }
+            // aux += "}";
+            // aux = aux.Replace(", }","}");
+            return new JsonResult (lista);
         }
 
         [HttpGet]
