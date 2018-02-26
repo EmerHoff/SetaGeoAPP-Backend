@@ -41,12 +41,12 @@ namespace WebAPI_SetaDigital.Controllers {
         }
 
         //Novos métodos/////////////////////////////////////////////////////////////////
-        //Cria uma lista de ContagemClientes com base no pais para posteriormente passar como JSON para o FrontEnd
+        //Cria uma lista de Contagem com base no pais para posteriormente passar como JSON para o FrontEnd
         //faz a pesquisa com base na UF da pessoa e onde os campos de bairro, cep, cidade nao são vazios para não resultar
         //divergencias com os outros métodos
-        public List<ContagemClientes> contagemClientesUFs (string pais) { //localhost:5000/api/geoseta/BR
-            List<ContagemClientes> listEstados = new List<ContagemClientes> ();
-            ContagemClientes estado = new ContagemClientes ();
+        public List<Contagem> contagemClientesUFs (string pais) { //localhost:5000/api/geoseta/BR
+            List<Contagem> listEstados = new List<Contagem> ();
+            Contagem estado = new Contagem ();
             int contador = 0;
             try {
                 NpgsqlConnection conn = new NpgsqlConnection (connstring);
@@ -62,12 +62,12 @@ namespace WebAPI_SetaDigital.Controllers {
 
                 while (dRead.Read ()) {
                     contador++;
-                    estado = new ContagemClientes {
+                    estado = new Contagem {
                         nome = "SETA." + pais + "." + dRead[0].ToString ().Trim (),
-                        contagem = Convert.ToInt32 (dRead[1].ToString ().Trim ())
+                        valor = Convert.ToInt32 (dRead[1].ToString ().Trim ())
                     };
                     Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
-                    Console.WriteLine ("Nome: " + estado.nome + "\nContagem" + estado.contagem);
+                    Console.WriteLine ("Nome: " + estado.nome + "\nContagem" + estado.valor);
                     listEstados.Add (estado);
 
                 }
@@ -77,10 +77,10 @@ namespace WebAPI_SetaDigital.Controllers {
             }
             return listEstados;
         }
-        //Cria uma lista de ContagemClientes que contem a lista de estados e a qtd de clientes para posteriormente passar como JSON para o FrontEnd
-        public List<ContagemClientes> contagemClientesCidades (string pais, string estado) { //localhost:5000/api/geoseta/BR
-            List<ContagemClientes> listCidades = new List<ContagemClientes> ();
-            ContagemClientes cidade = new ContagemClientes ();
+        //Cria uma lista de Contagem que contem a lista de estados e a qtd de clientes para posteriormente passar como JSON para o FrontEnd
+        public List<Contagem> contagemClientesCidades (string pais, string estado) { //localhost:5000/api/geoseta/BR
+            List<Contagem> listCidades = new List<Contagem> ();
+            Contagem cidade = new Contagem ();
             int contador = 0;
             try {
                 NpgsqlConnection conn = new NpgsqlConnection (connstring);
@@ -97,12 +97,12 @@ namespace WebAPI_SetaDigital.Controllers {
 
                 while (dRead.Read ()) {
                     contador++;
-                    cidade = new ContagemClientes {
+                    cidade = new Contagem {
                         nome = "SETA." + pais + "." + estado + "." + dRead[0].ToString ().Trim (),
-                        contagem = Convert.ToInt32 (dRead[1].ToString ().Trim ())
+                        valor = Convert.ToInt32 (dRead[1].ToString ().Trim ())
                     };
                     Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
-                    Console.WriteLine ("Nome: " + cidade.nome + "\nContagem" + cidade.contagem);
+                    Console.WriteLine ("Nome: " + cidade.nome + "\nContagem" + cidade.valor);
                     listCidades.Add (cidade);
 
                 }
@@ -112,10 +112,10 @@ namespace WebAPI_SetaDigital.Controllers {
             }
             return listCidades;
         }
-        //Cria uma lista de ContagemClientes que contém a lista de bairros e a qtd de clientes para posteriormente passar como JSON para o FrontEnd
-        public List<ContagemClientes> contagemClientesBairros (string pais, string estado, string cidade) { //localhost:5000/api/geoseta/BR
-            List<ContagemClientes> listBairros = new List<ContagemClientes> ();
-            ContagemClientes bairro = new ContagemClientes ();
+        //Cria uma lista de Contagem que contém a lista de bairros e a qtd de clientes para posteriormente passar como JSON para o FrontEnd
+        public List<Contagem> contagemClientesBairros (string pais, string estado, string cidade) { //localhost:5000/api/geoseta/BR
+            List<Contagem> listBairros = new List<Contagem> ();
+            Contagem bairro = new Contagem ();
             int contador = 0;
             try {
                 NpgsqlConnection conn = new NpgsqlConnection (connstring);
@@ -136,12 +136,12 @@ namespace WebAPI_SetaDigital.Controllers {
 
                 while (dRead.Read ()) {
                     contador++;
-                    bairro = new ContagemClientes {
+                    bairro = new Contagem {
                         nome = "SETA." + pais + "." + estado + "." + cidade + "." + dRead[0].ToString ().Trim (),
-                        contagem = Convert.ToInt32 (dRead[1].ToString ().Trim ())
+                        valor = Convert.ToInt32 (dRead[1].ToString ().Trim ())
                     };
                     Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
-                    Console.WriteLine ("Nome: " + bairro.nome + "\nContagem" + bairro.contagem);
+                    Console.WriteLine ("Nome: " + bairro.nome + "\nContagem" + bairro.valor);
                     listBairros.Add (bairro);
 
                 }
@@ -151,9 +151,9 @@ namespace WebAPI_SetaDigital.Controllers {
             }
             return listBairros;
         }
-        public List<TotalGasto> gastoEstados (string pais) { //localhost:5000/api/geoseta/BR
-            List<TotalGasto> listEstados = new List<TotalGasto> (); //Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
-            TotalGasto estado = new TotalGasto ();
+        public List<Contagem> gastoEstados (string pais) { //localhost:5000/api/geoseta/BR
+            List<Contagem> listEstados = new List<Contagem> (); //Cria uma lista de Contagem para posteriormente passar como JSON para o FrontEnd
+            Contagem estado = new Contagem ();
             int contador = 0;
             try {
                 NpgsqlConnection conn = new NpgsqlConnection (connstring);
@@ -167,7 +167,7 @@ namespace WebAPI_SetaDigital.Controllers {
 
                 while (dRead.Read ()) {
                     contador++;
-                    estado = new TotalGasto {
+                    estado = new Contagem {
                         nome = "SETA." + pais + "." + dRead[0].ToString ().Trim (),
                         valor = Convert.ToDouble (dRead[1].ToString ().Trim ())
                     };
@@ -182,9 +182,9 @@ namespace WebAPI_SetaDigital.Controllers {
             }
             return listEstados;
         }
-        public List<TotalGasto> gastoCidades (string pais, string estado) { //localhost:5000/api/geoseta/BR
-            List<TotalGasto> listCidades = new List<TotalGasto> (); //Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
-            TotalGasto cidade = new TotalGasto ();
+        public List<Contagem> gastoCidades (string pais, string estado) { //localhost:5000/api/geoseta/BR
+            List<Contagem> listCidades = new List<Contagem> (); //Cria uma lista de Contagem para posteriormente passar como JSON para o FrontEnd
+            Contagem cidade = new Contagem ();
             int contador = 0;
             try {
                 NpgsqlConnection conn = new NpgsqlConnection (connstring);
@@ -198,7 +198,7 @@ namespace WebAPI_SetaDigital.Controllers {
 
                 while (dRead.Read ()) {
                     contador++;
-                    cidade = new TotalGasto {
+                    cidade = new Contagem {
                         nome = "SETA." + pais + "." + estado + "." + dRead[0].ToString ().Trim (),
                         valor = Convert.ToDouble (dRead[1].ToString ().Trim ())
                     };
@@ -213,9 +213,9 @@ namespace WebAPI_SetaDigital.Controllers {
             }
             return listCidades;
         }
-        public List<TotalGasto> gastoBairros (string pais, string estado, string cidade) { //localhost:5000/api/geoseta/BR
-            List<TotalGasto> listBairros = new List<TotalGasto> (); //Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
-            TotalGasto bairro = new TotalGasto ();
+        public List<Contagem> gastoBairros (string pais, string estado, string cidade) { //localhost:5000/api/geoseta/BR
+            List<Contagem> listBairros = new List<Contagem> (); //Cria uma lista de Contagem para posteriormente passar como JSON para o FrontEnd
+            Contagem bairro = new Contagem ();
             int contador = 0;
             try {
                 NpgsqlConnection conn = new NpgsqlConnection (connstring);
@@ -229,7 +229,7 @@ namespace WebAPI_SetaDigital.Controllers {
 
                 while (dRead.Read ()) {
                     contador++;
-                    bairro = new TotalGasto {
+                    bairro = new Contagem {
                         nome = "SETA." + pais + "." + estado + "." + cidade + "." + dRead[0].ToString ().Trim (),
                         valor = Convert.ToDouble (dRead[1].ToString ().Trim ())
                     };
@@ -245,7 +245,7 @@ namespace WebAPI_SetaDigital.Controllers {
             return listBairros;
         }
         public List<ContagemMarca> listMarcasUFs (string pais, int qtd) { //localhost:5000/api/geoseta/BR
-            List<ContagemMarca> listEstados = new List<ContagemMarca> (); //Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
+            List<ContagemMarca> listEstados = new List<ContagemMarca> (); //Cria uma lista de Contagem para posteriormente passar como JSON para o FrontEnd
             ContagemMarca estado = new ContagemMarca ();
             int contador = 0;
             try {
@@ -322,7 +322,7 @@ namespace WebAPI_SetaDigital.Controllers {
             return listEstados;
         }
         public List<ContagemMarca> listMarcasCidades (string pais, string estado, int qtd) { //localhost:5000/api/geoseta/BR
-            List<ContagemMarca> listCidades = new List<ContagemMarca> (); //Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
+            List<ContagemMarca> listCidades = new List<ContagemMarca> (); //Cria uma lista de Contagem para posteriormente passar como JSON para o FrontEnd
             ContagemMarca cidade = new ContagemMarca ();
             int contador = 0;
             try {
@@ -395,7 +395,7 @@ namespace WebAPI_SetaDigital.Controllers {
             return listCidades;
         }
         public List<ContagemMarca> listMarcasBairros (string pais, string estado, string cidade, int qtd) { //localhost:5000/api/geoseta/BR
-            List<ContagemMarca> listBairros = new List<ContagemMarca> (); //Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
+            List<ContagemMarca> listBairros = new List<ContagemMarca> (); //Cria uma lista de Contagem para posteriormente passar como JSON para o FrontEnd
             ContagemMarca bairro = new ContagemMarca ();
             int contador = 0;
             try {
@@ -470,7 +470,7 @@ namespace WebAPI_SetaDigital.Controllers {
             return listBairros;
         }
         public List<ContagemMarca> listMarcasCidadeSomente (string pais, string estado, string cidade, int qtd) { //localhost:5000/api/geoseta/BR
-            List<ContagemMarca> listBairros = new List<ContagemMarca> (); //Cria uma lista de ContagemClientes para posteriormente passar como JSON para o FrontEnd
+            List<ContagemMarca> listBairros = new List<ContagemMarca> (); //Cria uma lista de Contagem para posteriormente passar como JSON para o FrontEnd
             ContagemMarca bairro = new ContagemMarca ();
             int contador = 0;
             try {

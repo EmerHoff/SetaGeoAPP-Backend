@@ -17,9 +17,9 @@ namespace WebAPI_SetaDigital.Controllers {
         public  JsonResult  ContagemClientesUFs (string  pais) {
             Console.WriteLine ("Pais = " + pais);
             CRUD crud = new CRUD ();
-            List<ContagemClientes> lista = crud.contagemClientesUFs (pais);
+            List<Contagem> lista = crud.contagemClientesUFs (pais);
             //string aux = "{";
-            //foreach (ContagemClientes cc in lista) {
+            //foreach (Contagems cc in lista) {
             //    aux += $"\"{cc.nome}\": {cc.contagem}, ";
             //}
             //aux += "}";
@@ -33,9 +33,9 @@ namespace WebAPI_SetaDigital.Controllers {
             Console.WriteLine ("Pais = " + pais);
             Console.WriteLine ("Estado = " + estado);
             CRUD crud = new CRUD ();
-            List<ContagemClientes> lista = crud.contagemClientesCidades (pais, estado);
+            List<Contagem> lista = crud.contagemClientesCidades (pais, estado);
             // string aux = "{";
-            // foreach (ContagemClientes cc in lista) {
+            // foreach (Contagem cc in lista) {
             //     aux += $"\"{cc.nome}\": {cc.contagem}, ";
             // }
             // aux += "}";
@@ -50,9 +50,9 @@ namespace WebAPI_SetaDigital.Controllers {
             Console.WriteLine ("Estado = " + estado);
             Console.WriteLine ("Cidade = " + cidade);
             CRUD crud = new CRUD ();
-            List<ContagemClientes> lista = crud.contagemClientesBairros (pais, estado, cidade);
+            List<Contagem> lista = crud.contagemClientesBairros (pais, estado, cidade);
             // string aux = "{";
-            // foreach (ContagemClientes cc in lista) {
+            // foreach (Contagem cc in lista) {
             //     aux += $"\"{cc.nome}\": {cc.contagem}, ";
             // }
             // aux += "}";
@@ -65,9 +65,9 @@ namespace WebAPI_SetaDigital.Controllers {
         public  JsonResult  gastoCidades (string  pais) {
             Console.WriteLine ("Pais = " + pais);
             CRUD crud = new CRUD ();
-            List<TotalGasto> lista = crud.gastoEstados (pais);
+            List<Contagem> lista = crud.gastoEstados (pais);
             // string aux = "{";
-            // foreach (TotalGasto cc in lista) {
+            // foreach (Contagem cc in lista) {
             //     string value = cc.valor.ToString().Replace(",",".");
             //     aux += $"\"{cc.nome}\": {value}, ";
             // }
@@ -82,9 +82,9 @@ namespace WebAPI_SetaDigital.Controllers {
             Console.WriteLine ("Pais = " + pais);
             Console.WriteLine ("Estado = " + estado);
             CRUD crud = new CRUD ();
-            List<TotalGasto> lista = crud.gastoCidades (pais, estado);
+            List<Contagem> lista = crud.gastoCidades (pais, estado);
             // string aux = "{";
-            // foreach (TotalGasto cc in lista) {
+            // foreach (Contagem cc in lista) {
             //     string value = cc.valor.ToString().Replace(",",".");
             //     aux += $"\"{cc.nome}\": {value}, ";
             // }
@@ -100,9 +100,9 @@ namespace WebAPI_SetaDigital.Controllers {
             Console.WriteLine ("Estado = " + estado);
             Console.WriteLine ("Cidade = " + cidade);
             CRUD crud = new CRUD ();
-            List<TotalGasto> lista = crud.gastoBairros (pais, estado, cidade);
+            List<Contagem> lista = crud.gastoBairros (pais, estado, cidade);
             // string aux = "{";
-            // foreach (TotalGasto cc in lista) {
+            // foreach (Contagem cc in lista) {
             //     string value = cc.valor.ToString().Replace(",",".");
             //     aux += $"\"{cc.nome}\": {value}, ";
             // }

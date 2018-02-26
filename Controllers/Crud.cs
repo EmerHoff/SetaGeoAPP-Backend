@@ -12,32 +12,32 @@ namespace WebAPI_SetaDigital.Controllers
     public class CRUD
     {
         //Novos métodos///////////////////////////////////////////////////
-        public List<ContagemClientes> contagemClientesUFs(string pais)
+        public List<Contagem> contagemClientesUFs(string pais)
         {
             Console.WriteLine("Contagem de clientes por UFs");
             return Banco.Instance.contagemClientesUFs(pais);
         }
-        public List<ContagemClientes> contagemClientesCidades(string pais, string estado)
+        public List<Contagem> contagemClientesCidades(string pais, string estado)
         {
             Console.WriteLine("Contagem de clientes por Cidades");
             return Banco.Instance.contagemClientesCidades(pais,estado);
         }
-        public List<ContagemClientes> contagemClientesBairros(string pais, string estado, string cidade)
+        public List<Contagem> contagemClientesBairros(string pais, string estado, string cidade)
         {
             Console.WriteLine("Contagem de clientes por Bairros");
             return Banco.Instance.contagemClientesBairros(pais,estado,cidade);
         }
-        public List<TotalGasto> gastoEstados(string pais)
+        public List<Contagem> gastoEstados(string pais)
         {
             Console.WriteLine("Contagem gasto dos clientes por Estados");
             return Banco.Instance.gastoEstados(pais);
         }
-        public List<TotalGasto> gastoCidades(string pais, string estado)
+        public List<Contagem> gastoCidades(string pais, string estado)
         {
             Console.WriteLine("Contagem gasto dos clientes por Cidades");
             return Banco.Instance.gastoCidades(pais,estado);
         }
-        public List<TotalGasto> gastoBairros(string pais, string estado, string cidade)
+        public List<Contagem> gastoBairros(string pais, string estado, string cidade)
         {
             Console.WriteLine("Contagem gasto dos clientes por Bairros");
             return Banco.Instance.gastoBairros(pais,estado,cidade);
