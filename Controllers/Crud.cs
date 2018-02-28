@@ -58,6 +58,18 @@ namespace WebAPI_SetaDigital.Controllers
             Console.WriteLine("Lista de marcas mais vendidas em uma cidade somente");
             return Banco.Instance.listMarcasCidadeSomente(pais, estado, cidade, qtd);
         }
+        public List<ContagemMarca> listTopMarcasUFs (string pais, int qtd){
+            Console.WriteLine("Lista das top marcas mais vendidas da loja por estado");
+            return Banco.Instance.listTopMarcasUFs(pais, qtd);
+        }
+        public List<ContagemMarca> listTopMarcasCidades (string pais, string estado, int qtd){
+            Console.WriteLine("Lista das top marcas mais vendidas da loja por cidade");
+            return Banco.Instance.listTopMarcasCidades(pais, estado, qtd);
+        }
+        public List<ContagemMarca> listTopMarcasBairros (string pais, string estado, string cidade, int qtd){
+            Console.WriteLine("Lista das top marcas mais vendidas da loja por bairro");
+            return Banco.Instance.listTopMarcasBairros(pais, estado, cidade, qtd);
+        }
         //Fim dos novos métodos///////////////////////////////////////////
 
         

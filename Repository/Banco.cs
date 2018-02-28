@@ -27,6 +27,8 @@ namespace WebAPI_SetaDigital.Controllers {
         // private  readonly  string  pass  =  "37dZ50rF";
         // private  readonly  string  database  =  "teste_a";
 
+        public List<Contagem> Marcas;
+
         private Banco () {
             connstring = String.Format ("Server={0};Port={1};User Id={2};Password={3};Database={4};", host, port, user, pass, database);
         }
@@ -499,6 +501,284 @@ namespace WebAPI_SetaDigital.Controllers {
                 }
                 bairro = new ContagemMarca {
                     nome = "SETA." + pais + "." + estado + "." + cidade,
+                    lstMarca = listaMarcas
+                };
+                Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
+                Console.WriteLine ("Nome: " + bairro.nome);
+                listBairros.Add (bairro);
+
+            } catch (Exception msg) {
+                Console.WriteLine (" Erro em Listar Todos" + msg.ToString ());
+            }
+            return listBairros;
+        }
+        public  void TopMarcas (int qtd) { //localhost:5000/api/geoseta/BR
+            this.Marcas = new List<Contagem> (); //Cria uma lista de Contagem para posteriormente passar como JSON para o FrontEnd
+            Contagem var = new Contagem ();
+            int contador = 0;
+            try {
+                NpgsqlConnection conn = new NpgsqlConnection (connstring);
+                conn.Open ();
+
+                // Colocar o Pais
+                // Decidir se vai fazer o gasto médio por bairro ou se vai fazer o gasto total, se for o médio é só pegar o total que vem e dividir pela quantidade de pessoas          
+                string sql = String.Format ("select  mar.descricao, count(m.quantidade) from pessoas as p " +
+                    "join vendas as v on v.cliente = p.codigo join movimento as m on SUBSTR(m.auxiliar, 3, 8)::Char(8) = v.codigo " +
+                    "AND m.operacao = 'VE' join produtos as pro on pro.codigo = substr(m.produto, 1, 6)::Char(6) " +
+                    "join marcas as mar on mar.codigo = pro.marca where p.UF != '' " +
+                    "and p.UF != 'EX' and p.cliente = 't' " +
+                    "group by  mar.descricao order by  count desc limit {0}", qtd);
+                NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
+                NpgsqlDataReader dRead = cmd.ExecuteReader ();
+
+                while (dRead.Read ()) {
+                    contador++;
+                    var = new Contagem {
+                        nome = dRead[0].ToString ().Trim (),
+                        valor = Convert.ToInt32 (dRead[1].ToString ().Trim ())
+                    };
+                    Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
+                    Console.WriteLine ("Nome: " + var.nome + "\nContagem" + var.valor);
+                    this.Marcas.Add (var);
+
+                }
+            } catch (Exception msg) {
+                Console.WriteLine (" Erro em Listar Todos" + msg.ToString ());
+            }
+        }
+        public List<ContagemMarca> listTopMarcasUFs (string pais, int qtd) { //localhost:5000/api/geoseta/BR
+            List<ContagemMarca> listEstados = new List<ContagemMarca> (); //Cria uma lista de Contagem para posteriormente passar como JSON para o FrontEnd
+            ContagemMarca estado = new ContagemMarca ();
+            int contador = 0;
+            try {
+                
+                this.TopMarcas(7);
+                Console.WriteLine(this.Marcas[0].nome+" outra "+this.Marcas[1].nome+" outra "+this.Marcas[2].nome+" outra "+this.Marcas[3].nome+" outra "+this.Marcas[4].nome+" outra "+this.Marcas[5].nome+" outra "+this.Marcas[6].nome);
+                NpgsqlConnection conn = new NpgsqlConnection (connstring);
+                conn.Open ();
+
+                // Colocar o Pais
+                // Decidir se vai fazer o gasto médio por bairro ou se vai fazer o gasto total, se for o médio é só pegar o total que vem e dividir pela quantidade de pessoas          
+                string sql = String.Format ("select p.UF, mar.descricao, count(m.quantidade) from pessoas as p " +
+                    "join vendas as v on v.cliente = p.codigo join movimento as m on SUBSTR(m.auxiliar, 3, 8)::Char(8) = v.codigo " +
+                    "AND m.operacao = 'VE' join produtos as pro on pro.codigo = substr(m.produto, 1, 6)::Char(6) " +
+                    "join marcas as mar on mar.codigo = pro.marca where p.UF != ''  " +
+                    "and p.UF != 'EX' and p.cliente = 't' AND (mar.descricao = '{0}' or mar.descricao = '{1}' OR mar.descricao = '{2}' OR mar.descricao = '{3}' OR mar.descricao = '{4}' OR mar.descricao = '{5}' OR mar.descricao = '{6}')" +
+                    "group by  p.uf, mar.descricao order by  count desc",this.Marcas[0].nome,this.Marcas[1].nome,this.Marcas[2].nome,this.Marcas[3].nome,this.Marcas[4].nome,this.Marcas[5].nome,this.Marcas[6].nome);
+                NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
+                NpgsqlDataReader dRead = cmd.ExecuteReader ();
+
+                string auxiliar = "";
+                string anterior = "";
+                List<Marca> listaMarcas = new List<Marca> ();
+                Marca marca;
+                int limit = 0;
+                while (dRead.Read ()) {
+                    auxiliar = dRead[0].ToString ().Trim ();
+                    if (contador == 0) {
+                        anterior = auxiliar;
+                        marca = new Marca () {
+                            Nome = dRead[1].ToString ().Trim (),
+                            QtdVendasMarca = Convert.ToInt16 (dRead[2].ToString ().Trim ())
+                        };
+                        listaMarcas.Add (marca);
+                        limit++;
+                    }
+
+                    if (contador != 0 && auxiliar == anterior && limit < qtd) {
+                        marca = new Marca {
+                        Nome = dRead[1].ToString ().Trim (),
+                        QtdVendasMarca = Convert.ToInt16 (dRead[2].ToString ().Trim ())
+                        };
+                        listaMarcas.Add (marca);
+                        limit++;
+                    } else if (contador != 0 && auxiliar != anterior) {
+
+                        estado = new ContagemMarca {
+                        nome = "SETA." + pais + "." + anterior,
+                        lstMarca = listaMarcas
+                        };
+                        Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
+                        Console.WriteLine ("Nome: " + estado.nome);
+                        listEstados.Add (estado);
+                        limit = 0;
+                        anterior = auxiliar;
+                        listaMarcas = new List<Marca> ();
+                        marca = new Marca () {
+                            Nome = dRead[1].ToString ().Trim (),
+                            QtdVendasMarca = Convert.ToInt16 (dRead[2].ToString ().Trim ())
+                        };
+                        listaMarcas.Add (marca);
+                        limit++;
+                    }
+                    contador++;
+
+                }
+                estado = new ContagemMarca {
+                    nome = "SETA." + pais + "." + auxiliar,
+                    lstMarca = listaMarcas
+                };
+                Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
+                Console.WriteLine ("Nome: " + estado.nome);
+                listEstados.Add (estado);
+
+            } catch (Exception msg) {
+                Console.WriteLine (" Erro em Listar Todos" + msg.ToString ());
+            }
+            return listEstados;
+        }
+        public List<ContagemMarca> listTopMarcasCidades (string pais, string estado, int qtd) { //localhost:5000/api/geoseta/BR
+            List<ContagemMarca> listCidades = new List<ContagemMarca> (); //Cria uma lista de Contagem para posteriormente passar como JSON para o FrontEnd
+            ContagemMarca cidade = new ContagemMarca ();
+            int contador = 0;
+            try {
+                
+                //this.TopMarcas(7);
+                NpgsqlConnection conn = new NpgsqlConnection (connstring);
+                conn.Open ();
+
+                // Colocar o Pais
+                // Decidir se vai fazer o gasto médio por bairro ou se vai fazer o gasto total, se for o médio é só pegar o total que vem e dividir pela quantidade de pessoas          
+                string sql = String.Format ("select cid.descricao, mar.descricao, sum(m.quantidade) from pessoas as p " +
+                    "join cepcidades as cid on p.codcidade = cid.codigo " +
+                    "join vendas as v on v.cliente = p.codigo join movimento as m on SUBSTR(m.auxiliar, 3, 8)::Char(8) = v.codigo AND m.operacao = 'VE' " +
+                    "join produtos as pro on pro.codigo = substr(m.produto, 1, 6)::Char(6) " +
+                    "join marcas as mar on mar.codigo = pro.marca " +
+                    "where cid.uf = '{0}' and (mar.descricao = '{1}' or mar.descricao = '{2}' OR mar.descricao = '{3}' OR mar.descricao = '{4}' OR mar.descricao = '{5}' OR mar.descricao = '{6}' OR mar.descricao = '{7}') group by cid.descricao, mar.descricao " +
+                    "order by cid.descricao, sum desc",estado,this.Marcas[0].nome,this.Marcas[1].nome,this.Marcas[2].nome,this.Marcas[3].nome,this.Marcas[4].nome,this.Marcas[5].nome,this.Marcas[6].nome);
+                NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
+                NpgsqlDataReader dRead = cmd.ExecuteReader ();
+
+                string auxiliar = "";
+                string anterior = "";
+                List<Marca> listaMarcas = new List<Marca> ();
+                Marca marca;
+                int limit = 0;
+                while (dRead.Read ()) {
+                    auxiliar = dRead[0].ToString ().Trim ();
+                    if (contador == 0) {
+                        anterior = auxiliar;
+                        marca = new Marca () {
+                            Nome = dRead[1].ToString ().Trim (),
+                            QtdVendasMarca = Convert.ToInt16 (dRead[2].ToString ().Trim ())
+                        };
+                        listaMarcas.Add (marca);
+                        limit++;
+                    }
+
+                    if (contador != 0 && auxiliar == anterior && limit < qtd) {
+                        marca = new Marca {
+                        Nome = dRead[1].ToString ().Trim (),
+                        QtdVendasMarca = Convert.ToInt16 (dRead[2].ToString ().Trim ())
+                        };
+                        listaMarcas.Add (marca);
+                        limit++;
+                    } else if (contador != 0 && auxiliar != anterior) {
+
+                        cidade = new ContagemMarca {
+                        nome = "SETA." + pais + "." + anterior,
+                        lstMarca = listaMarcas
+                        };
+                        Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
+                        Console.WriteLine ("Nome: " + cidade.nome);
+                        listCidades.Add (cidade);
+                        limit = 0;
+                        anterior = auxiliar;
+                        listaMarcas = new List<Marca> ();
+                        marca = new Marca () {
+                            Nome = dRead[1].ToString ().Trim (),
+                            QtdVendasMarca = Convert.ToInt16 (dRead[2].ToString ().Trim ())
+                        };
+                        listaMarcas.Add (marca);
+                        limit++;
+                    }
+                    contador++;
+
+                }
+                cidade = new ContagemMarca {
+                    nome = "SETA." + pais + "." + auxiliar,
+                    lstMarca = listaMarcas
+                };
+                Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
+                Console.WriteLine ("Nome: " + cidade.nome);
+                listCidades.Add (cidade);
+
+            } catch (Exception msg) {
+                Console.WriteLine (" Erro em Listar Todos" + msg.ToString ());
+            }
+            return listCidades;
+        }
+        public List<ContagemMarca> listTopMarcasBairros (string pais, string estado, string cidade, int qtd) { //localhost:5000/api/geoseta/BR
+            List<ContagemMarca> listBairros = new List<ContagemMarca> (); //Cria uma lista de Contagem para posteriormente passar como JSON para o FrontEnd
+            ContagemMarca bairro = new ContagemMarca ();
+            int contador = 0;
+            try {
+                
+                //this.TopMarcas(7);
+                NpgsqlConnection conn = new NpgsqlConnection (connstring);
+                conn.Open ();
+
+                // Colocar o Pais
+                // Decidir se vai fazer o gasto médio por bairro ou se vai fazer o gasto total, se for o médio é só pegar o total que vem e dividir pela quantidade de pessoas          
+                string sql = String.Format ("select bai.descricao, mar.descricao, sum(m.quantidade) from pessoas as p " +
+                "join cep on p.cep = cep.codigo join cepbairros as bai on cep.bairro = bai.codigo " +
+                "join cepcidades as cid on cep.cidade = cid.codigo join vendas as v on v.cliente = p.codigo " +
+                "join movimento as m on SUBSTR(m.auxiliar, 3, 8)::Char(8) = v.codigo and m.operacao = 'VE' " +
+                "join produtos as pro on pro.codigo = substr(m.produto, 1, 6)::Char(6) " +
+                "join marcas as mar on mar.codigo = pro.marca where p.codcidade = cep.cidade and p.cep != '' and cid.descricao = '{0}' and cid.uf = '{1}' " +
+                "and (mar.descricao = '{2}' or mar.descricao = '{3}' OR mar.descricao = '{4}' OR mar.descricao = '{5}' OR mar.descricao = '{6}' OR mar.descricao = '{7}' OR mar.descricao = '{8}') " +
+                "group by bai.descricao, mar.descricao order by bai.descricao, sum desc",cidade,estado,this.Marcas[0].nome,this.Marcas[1].nome,this.Marcas[2].nome,this.Marcas[3].nome,this.Marcas[4].nome,this.Marcas[5].nome,this.Marcas[6].nome);
+                NpgsqlCommand cmd = new NpgsqlCommand (sql, conn);
+                NpgsqlDataReader dRead = cmd.ExecuteReader ();
+
+                string auxiliar = "";
+                string anterior = "";
+                List<Marca> listaMarcas = new List<Marca> ();
+                Marca marca;
+                int limit = 0;
+                while (dRead.Read ()) {
+                    auxiliar = dRead[0].ToString ().Trim ();
+                    if (contador == 0) {
+                        anterior = auxiliar;
+                        marca = new Marca () {
+                            Nome = dRead[1].ToString ().Trim (),
+                            QtdVendasMarca = Convert.ToInt16 (dRead[2].ToString ().Trim ())
+                        };
+                        listaMarcas.Add (marca);
+                        limit++;
+                    }
+
+                    if (contador != 0 && auxiliar == anterior && limit < qtd) {
+                        marca = new Marca {
+                        Nome = dRead[1].ToString ().Trim (),
+                        QtdVendasMarca = Convert.ToInt16 (dRead[2].ToString ().Trim ())
+                        };
+                        listaMarcas.Add (marca);
+                        limit++;
+                    } else if (contador != 0 && auxiliar != anterior) {
+
+                        bairro = new ContagemMarca {
+                        nome = "SETA." + pais + "." + anterior,
+                        lstMarca = listaMarcas
+                        };
+                        Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
+                        Console.WriteLine ("Nome: " + bairro.nome);
+                        listBairros.Add (bairro);
+                        limit = 0;
+                        anterior = auxiliar;
+                        listaMarcas = new List<Marca> ();
+                        marca = new Marca () {
+                            Nome = dRead[1].ToString ().Trim (),
+                            QtdVendasMarca = Convert.ToInt16 (dRead[2].ToString ().Trim ())
+                        };
+                        listaMarcas.Add (marca);
+                        limit++;
+                    }
+                    contador++;
+
+                }
+                bairro = new ContagemMarca {
+                    nome = "SETA." + pais + "." + auxiliar,
                     lstMarca = listaMarcas
                 };
                 Console.WriteLine ("Adicionando Pessoa Nº: " + contador);

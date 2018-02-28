@@ -156,6 +156,40 @@ namespace WebAPI_SetaDigital.Controllers {
             List<ContagemMarca> lista = crud.listMarcasCidadeSomente (pais, estado, cidade, qtd);
             return new JsonResult (lista);
         }
+
+        [HttpGet]
+        [Route ("api/geoseta/topmarcas/{qtd}/{pais}")]
+        public  JsonResult  listTopMarcasUFs (int qtd, string pais) {
+            Console.WriteLine ("Pais = " + pais);
+            Console.WriteLine ("Qtd = " + qtd);
+            CRUD crud = new CRUD ();
+            List<ContagemMarca> lista = crud.listTopMarcasUFs (pais, qtd);
+            //Todo achar um jeito para mandar as marcas
+            return new JsonResult (lista);
+        }
+
+        [HttpGet]
+        [Route ("api/geoseta/topmarcas/{qtd}/{pais}/{estado}")]
+        public  JsonResult  listTopMarcasCidades (int qtd, string pais, string estado) {
+            Console.WriteLine ("Pais = " + pais);
+            Console.WriteLine ("Estado = " + estado);
+            Console.WriteLine ("Qtd = " + qtd);
+            CRUD crud = new CRUD ();
+            List<ContagemMarca> lista = crud.listTopMarcasCidades (pais, estado, qtd);
+            return new JsonResult (lista);
+        }
+
+        [HttpGet]
+        [Route ("api/geoseta/topmarcas/{qtd}/{pais}/{estado}/{cidade}")]
+        public  JsonResult  listTopMarcasBairros (int qtd, string pais, string estado, string cidade) {
+            Console.WriteLine ("Pais = " + pais);
+            Console.WriteLine ("Estado = " + estado);
+            Console.WriteLine ("Cidade = " + cidade);
+            Console.WriteLine ("Qtd = " + qtd);
+            CRUD crud = new CRUD ();
+            List<ContagemMarca> lista = crud.listTopMarcasBairros (pais, estado, cidade, qtd);
+            return new JsonResult (lista);
+        }
         //Fim dos novos métodos///////////////////////////////////////
         [HttpGet ("{codigo}")]
         [Route ("api/geoseta/pessoas/buscar")]
