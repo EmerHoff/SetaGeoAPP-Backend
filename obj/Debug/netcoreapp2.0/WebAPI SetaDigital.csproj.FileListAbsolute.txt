@@ -38,3 +38,13 @@ C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\obj\Debu
 C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.AssemblyInfo.cs
 C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.dll
 C:\Users\bruno.henrique\Documents\SetaAplicativo\SetaAplicativo Backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.pdb
+C:\Users\Emerson.Hoffmann\Documents\app-backend\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.deps.json
+C:\Users\Emerson.Hoffmann\Documents\app-backend\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.runtimeconfig.json
+C:\Users\Emerson.Hoffmann\Documents\app-backend\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.runtimeconfig.dev.json
+C:\Users\Emerson.Hoffmann\Documents\app-backend\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.dll
+C:\Users\Emerson.Hoffmann\Documents\app-backend\bin\Debug\netcoreapp2.0\WebAPI SetaDigital.pdb
+C:\Users\Emerson.Hoffmann\Documents\app-backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.csproj.CoreCompileInputs.cache
+C:\Users\Emerson.Hoffmann\Documents\app-backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.AssemblyInfoInputs.cache
+C:\Users\Emerson.Hoffmann\Documents\app-backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.AssemblyInfo.cs
+C:\Users\Emerson.Hoffmann\Documents\app-backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.dll
+C:\Users\Emerson.Hoffmann\Documents\app-backend\obj\Debug\netcoreapp2.0\WebAPI SetaDigital.pdb

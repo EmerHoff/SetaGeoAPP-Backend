@@ -587,16 +587,16 @@ namespace WebAPI_SetaDigital.Controllers {
 
                     if (contador != 0 && auxiliar == anterior && limit < qtd) {
                         marca = new Marca {
-                        Nome = dRead[1].ToString ().Trim (),
-                        QtdVendasMarca = Convert.ToInt16 (dRead[2].ToString ().Trim ())
+                            Nome = dRead[1].ToString ().Trim (),
+                            QtdVendasMarca = Convert.ToInt16 (dRead[2].ToString ().Trim ())
                         };
                         listaMarcas.Add (marca);
                         limit++;
                     } else if (contador != 0 && auxiliar != anterior) {
 
                         estado = new ContagemMarca {
-                        nome = "SETA." + pais + "." + anterior,
-                        lstMarca = listaMarcas
+                            nome = "SETA." + pais + "." + anterior,
+                            lstMarca = listaMarcas
                         };
                         Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
                         Console.WriteLine ("Nome: " + estado.nome);
@@ -676,7 +676,7 @@ namespace WebAPI_SetaDigital.Controllers {
                     } else if (contador != 0 && auxiliar != anterior) {
 
                         cidade = new ContagemMarca {
-                        nome = "SETA." + pais + "." + anterior,
+                        nome = "SETA." + pais + "." + estado + "." + anterior,
                         lstMarca = listaMarcas
                         };
                         Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
@@ -696,7 +696,7 @@ namespace WebAPI_SetaDigital.Controllers {
 
                 }
                 cidade = new ContagemMarca {
-                    nome = "SETA." + pais + "." + auxiliar,
+                    nome = "SETA." + pais + "." + estado + "." + auxiliar,
                     lstMarca = listaMarcas
                 };
                 Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
@@ -758,7 +758,7 @@ namespace WebAPI_SetaDigital.Controllers {
                     } else if (contador != 0 && auxiliar != anterior) {
 
                         bairro = new ContagemMarca {
-                        nome = "SETA." + pais + "." + anterior,
+                        nome = "SETA." + pais + "." + estado + "." + cidade + "." + anterior,
                         lstMarca = listaMarcas
                         };
                         Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
@@ -778,7 +778,7 @@ namespace WebAPI_SetaDigital.Controllers {
 
                 }
                 bairro = new ContagemMarca {
-                    nome = "SETA." + pais + "." + auxiliar,
+                    nome = "SETA." + pais + "." + estado + "." + cidade + "." + anterior,
                     lstMarca = listaMarcas
                 };
                 Console.WriteLine ("Adicionando Pessoa Nº: " + contador);
